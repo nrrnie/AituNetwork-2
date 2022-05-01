@@ -1,12 +1,23 @@
 from aituNetwork import db
 
 from datetime import datetime
-from uuid import uuid4
+from random import randint
+
+
+def random_id():
+    mn = 1000000
+    mx = 9999999
+
+    rand = randint(mn, mx)
+    while Users.query.filter_by(id=rand).first() is not None:
+        rand = randint(mn, mx)
+
+    return rand
 
 
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    slug = db.Column(db.String(255), unique=True, nullable=False, default=uuid4)
+    slug = db.Column(db.String(255), unique=True, nullable=False, default=random_id)
     barcode = db.Column(db.Integer, nullable=False, unique=True)
     first_name = db.Column(db.String(255), nullable=False)
     last_name = db.Column(db.String(255), nullable=False)
