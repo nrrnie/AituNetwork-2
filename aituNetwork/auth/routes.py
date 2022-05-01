@@ -64,4 +64,7 @@ def register():
 
 @auth.route('/logout', methods=['GET'])
 def logout():
-    return ''
+    if session.get('user'):
+        del session['user']
+
+    return redirect(url_for('auth.login'))
