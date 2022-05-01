@@ -1,4 +1,4 @@
-from flask import render_template, request, flash
+from flask import render_template, request, flash, session
 from flask import redirect, url_for
 from passlib.hash import sha256_crypt
 
@@ -19,6 +19,7 @@ def login():
     user = Users.query.filter_by(barcode=barcode).first()
 
     if user is not None and sha256_crypt.verify(password, user.password):
+        session['user'] = user
         return redirect(url_for('main.home'))
 
     flash('Barcode or password is wrong')
