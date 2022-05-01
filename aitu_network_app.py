@@ -10,12 +10,13 @@ def main():
 
     host = getenv('HOST')
     port = getenv('PORT')
+    debug = getenv('DEBUG')
 
-    if None in [host, port]:
-        print('Host or port was not set.')
+    if None in [host, port, debug]:
+        print('Host, port or debug values was not set.')
         exit()
 
-    app.run(host=host, port=port)
+    app.run(host=host, port=port, debug=debug)
 
 
 if __name__ == '__main__':
