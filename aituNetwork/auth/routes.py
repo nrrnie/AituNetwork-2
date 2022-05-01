@@ -19,7 +19,7 @@ def login():
     user = Users.query.filter_by(barcode=barcode).first()
 
     if user is not None and sha256_crypt.verify(password, user.password):
-        return 'main page'
+        return redirect(url_for('main.home'))
 
     flash('Barcode or password is wrong')
 
