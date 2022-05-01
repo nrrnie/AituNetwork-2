@@ -1,7 +1,8 @@
 from flask_migrate import Migrate
+from os import getenv
 
 from aituNetwork import create_app, db
-from os import getenv
+from aituNetwork.models import Users
 
 
 app = create_app()
