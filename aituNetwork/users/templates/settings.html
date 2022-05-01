@@ -1,0 +1,48 @@
+{% extends 'main.html' %}
+
+{% block title %} Settings {% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="main-body">
+        <div class="row">
+            <div class="col-lg-2">
+                {{ sidebar(user) }}
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="text-center">Settings</h1>
+                        <hr class="my-3">
+                        <form>
+                            <div class="mb-3">
+                                <label for="slug-input" class="form-label">Slug</label>
+                                <input type="text" class="form-control" id="slug-input" name="slug"
+                                       value="{{ user.slug }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="first-name-input" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="first-name-input" name="first-name"
+                                       value="{{ user.first_name }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="last-name-input" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="last-name-input" name="last-name"
+                                       value="{{ user.last_name }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="about-me-input" class="form-label">About me</label>
+                                <input type="text" class="form-control" id="about-me-input" name="about-me"
+                                       value="{{ user.about_me }}" required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary m-auto">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

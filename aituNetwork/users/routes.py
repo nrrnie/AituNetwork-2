@@ -25,3 +25,10 @@ def profile(slug: str):
     current_user = session['user']
 
     return render_template('profile.html', current_user=current_user, profile_user=user)
+
+
+@users.route('/settings', methods=['GET'])
+@auth_required
+def settings():
+
+    return render_template('settings.html', user=session['user'])
