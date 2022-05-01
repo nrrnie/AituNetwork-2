@@ -19,5 +19,7 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/auth')
     from aituNetwork.main import main
     app.register_blueprint(main, url_prefix='')
+    from aituNetwork.users import users
+    app.register_blueprint(users, url_prefix='/users')
 
     return app
