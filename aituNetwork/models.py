@@ -1,9 +1,7 @@
-from flask_sqlalchemy import SQLAlchemy
+from aituNetwork import db
 
 from datetime import datetime
 from uuid import uuid4
-
-db = SQLAlchemy()
 
 
 class Users(db.Model):

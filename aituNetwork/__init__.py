@@ -1,22 +1,27 @@
+from flask_session import Session, SqlAlchemySessionInterface
 from flask_sqlalchemy import SQLAlchemy
-from flask_session import Session
+from flask_migrate import Migrate
 from flask import Flask
 
 from config import Config
 
 db = SQLAlchemy()
 ses = Session()
+migrate = Migrate()
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    db.init_app(app)
-    ses.init_app(app)
+    from aituNetwork.models import Users
 
     with app.app_context():
-        db.create_all()
+        db.init_app(app)
+        migrate.init_app(app, db)
+
+        ses.init_app(app)
+        SqlAlchemySessionInterface(app, db, 'sessions', 'sess_')
 
     from aituNetwork.auth import auth
     app.register_blueprint(auth, url_prefix='/auth')
