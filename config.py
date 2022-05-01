@@ -16,3 +16,4 @@ db = {
 class Config:
     SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{db["user"]}:{quote_plus(db["password"])}@{db["host"]}/{db["name"]}'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = getenv('SECRET_KEY')
