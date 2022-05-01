@@ -1,18 +1,25 @@
 from flask import render_template, request, flash, session
 from flask import redirect, url_for
 from passlib.hash import sha256_crypt
-
+import functools
 
 from aituNetwork.auth import auth
 from aituNetwork.models import Users
 from aituNetwork import db
 
 
-@auth.route('/login', methods=['GET', 'POST'])
-def login():
-    if session.get('user') is not None:
-        return redirect(url_for('users.profile', slug=session['user']['slug']))
+def redirect_if_logged(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        if session.get('user') is not None:
+            return redirect(url_for('users.profile', slug=session['user'].slug))
+        return func(*args, **kwargs)
+    return wrapper
 
+
+@auth.route('/login', methods=['GET', 'POST'])
+@redirect_if_logged
+def login():
     if request.method == 'GET':
         return render_template('login.html')
 
@@ -31,10 +38,8 @@ def login():
 
 
 @auth.route('/register', methods=['GET', 'POST'])
+@redirect_if_logged
 def register():
-    if session.get('user') is not None:
-        return redirect(url_for('users.profile', slug=session['user']['slug']))
-
     if request.method == 'GET':
         return render_template('register.html')
 
