@@ -1,10 +1,14 @@
-from aituNetwork import create_app
+from flask_migrate import Migrate
+
+from aituNetwork import create_app, db
 from os import getenv
 
 
-def main():
-    app = create_app()
+app = create_app()
+migrate = Migrate(app, db)
 
+
+def main():
     host = getenv('HOST')
     port = getenv('PORT')
     debug = getenv('DEBUG')
