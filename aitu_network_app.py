@@ -1,8 +1,5 @@
 from aituNetwork import create_app
-from dotenv import load_dotenv
 from os import getenv
-
-load_dotenv()
 
 
 def main():

@@ -1,12 +1,15 @@
-from os import environ
+from dotenv import load_dotenv
+from os import getenv
 
 from urllib.parse import quote_plus
 
+load_dotenv()
+
 db = {
-    'user': environ.get('DATABASE_USER'),
-    'password': environ.get('DATABASE_PASSWORD'),
-    'host': environ.get('DATABASE_HOST'),
-    'name': environ.get('DATABASE_NAME')
+    'user': getenv('DATABASE_USER'),
+    'password': getenv('DATABASE_PASSWORD'),
+    'host': getenv('DATABASE_HOST'),
+    'name': getenv('DATABASE_NAME')
 }
 
 
