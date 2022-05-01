@@ -53,3 +53,8 @@ def register():
         flash('Passwords does not match')
 
     return render_template('register.html')
+
+
+@auth.route('/logout', methods=['GET'])
+def logout():
+    return ''
