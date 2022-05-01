@@ -3,26 +3,26 @@
 {% block title %} Register {% endblock %}
 
 {% block form %}
-<form>
+<form method="POST">
     <div class="mb-3">
         <label for="barcode-input" class="form-label">Barcode</label>
-        <input type="email" class="form-control" id="barcode-input" name="barcode">
+        <input type="email" class="form-control" id="barcode-input" name="barcode" required>
     </div>
     <div class="mb-3">
         <label for="first-name-input" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="first-name-input" name="first-name">
+        <input type="text" class="form-control" id="first-name-input" name="first-name" required>
     </div>
     <div class="mb-3">
         <label for="last-name-input" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="last-name-input" name="last-name">
+        <input type="text" class="form-control" id="last-name-input" name="last-name" required>
     </div>
     <div class="mb-3">
         <label for="password-input" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password-input" name="password">
+        <input type="password" class="form-control" id="password-input" name="password" required>
     </div>
     <div class="mb-3">
         <label for="password-confirm-input" class="form-label">Password Confirm</label>
-        <input type="password" class="form-control" id="password-confirm-input" name="password-confirm">
+        <input type="password" class="form-control" id="password-confirm-input" name="password-confirm" required>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
