@@ -10,6 +10,9 @@ from aituNetwork import db
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    if session.get('user') is not None:
+        return redirect(url_for('users.profile'))
+
     if request.method == 'GET':
         return render_template('login.html')
 
@@ -29,6 +32,9 @@ def login():
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
+    if session.get('user') is not None:
+        return redirect(url_for('users.profile'))
+
     if request.method == 'GET':
         return render_template('register.html')
 
