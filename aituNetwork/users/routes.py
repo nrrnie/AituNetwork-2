@@ -2,7 +2,8 @@ from flask import request, render_template, session
 from flask import redirect, url_for, flash
 import functools
 from aituNetwork.users import users
-from aituNetwork.models import Users
+from aituNetwork.models import Users, ProfilePictures
+from aituNetwork import db
 from utils import picturesDB
 
 
@@ -18,14 +19,17 @@ def auth_required(func):
 @users.route('/<slug>', methods=['GET'])
 @auth_required
 def profile(slug: str):
-    user = Users.query.filter_by(slug=slug).first()
+    profile_user = Users.query.filter_by(slug=slug).first()
 
-    if user is None:
+    if profile_user is None:
         return 'user is not found'
 
-    current_user = session['user']
+    user = session['user']
+    profile_picture = ProfilePictures.query.filter_by(user_id=user.id).order_by(ProfilePictures.id.desc()).first()
+    if profile_picture:
+        user.profile_picture = profile_picture.name
 
-    return render_template('profile.html', current_user=current_user, profile_user=user)
+    return render_template('profile.html', user=user, profile_user=profile_user)
 
 
 @users.route('/settings', methods=['GET', 'POST'])
@@ -36,8 +40,10 @@ def settings():
 
     picture = request.files.get('profile-picture')
     if picture:
-        picture_name = picturesDB.add_picture('profile-image', picture)
-        # save picture_name to database
+        picture_name = picturesDB.add_picture('profile-pictures', picture)
+        profile_picture = ProfilePictures(user_id=session['user'].id,  name=picture_name)
+        db.session.add(profile_picture)
+        db.session.commit()
 
     flash('Info was updated')
     return redirect(url_for('users.settings'))
