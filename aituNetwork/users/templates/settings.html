@@ -14,7 +14,11 @@
                     <div class="card-body">
                         <h1 class="text-center">Settings</h1>
                         <hr class="my-3">
-                        <form>
+                        <form method="POST">
+                            <div class=" mb-3">
+                                <label for="profile-picture-input" class="form-label">Profile picture</label>
+                                <input type="file" class="form-control" id="profile-picture-input" name="profile-picture">
+                            </div>
                             <div class="mb-3">
                                 <label for="slug-input" class="form-label">Slug</label>
                                 <input type="text" class="form-control" id="slug-input" name="slug"
