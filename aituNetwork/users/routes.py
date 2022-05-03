@@ -24,10 +24,11 @@ def profile(slug: str):
     if profile_user is None:
         return 'user is not found'
 
-    user = session['user']
-    profile_picture = ProfilePictures.query.filter_by(user_id=user.id).order_by(ProfilePictures.id.desc()).first()
+    profile_picture = ProfilePictures.query.filter_by(user_id=profile_user.id).order_by(ProfilePictures.id.desc()).first()
     if profile_picture:
-        user.profile_picture = profile_picture.name
+        profile_user.profile_picture = profile_picture.name
+
+    user = session['user']
 
     return render_template('profile.html', user=user, profile_user=profile_user)
 
