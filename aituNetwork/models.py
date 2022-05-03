@@ -25,3 +25,10 @@ class Users(db.Model):
     password = db.Column(db.String(255), nullable=False)
     registered = db.Column(db.DATETIME, nullable=False, default=datetime.now)
     is_activated = db.Column(db.Boolean, nullable=False, default=False)
+
+
+class ProfilePictures(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    picture_name = db.Column(db.String(255), unique=True, nullable=False)
+    added = db.Column(db.DATETIME, nullable=False, default=datetime.now)
