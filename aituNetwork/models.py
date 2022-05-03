@@ -32,3 +32,9 @@ class ProfilePictures(db.Model):
     user_id = db.Column(db.Integer, nullable=False)
     name = db.Column(db.String(255), unique=True, nullable=False)
     added = db.Column(db.DATETIME, nullable=False, default=datetime.now)
+
+
+class Friends(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, index=True, nullable=False)
+    friend_id = db.Column(db.Integer, index=True, nullable=False)
