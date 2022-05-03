@@ -1,6 +1,7 @@
 from flask_session import Session, SqlAlchemySessionInterface
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask import redirect, url_for
 from flask import Flask
 
 from config import Config
@@ -29,5 +30,9 @@ def create_app():
     app.register_blueprint(main, url_prefix='')
     from aituNetwork.users import users
     app.register_blueprint(users, url_prefix='/users')
+
+    @app.route('/')
+    def main():
+        return redirect(url_for('auth.login'))
 
     return app
