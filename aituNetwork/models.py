@@ -30,5 +30,5 @@ class Users(db.Model):
 class ProfilePictures(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False)
-    picture_name = db.Column(db.String(255), unique=True, nullable=False)
+    name = db.Column(db.String(255), unique=True, nullable=False)
     added = db.Column(db.DATETIME, nullable=False, default=datetime.now)

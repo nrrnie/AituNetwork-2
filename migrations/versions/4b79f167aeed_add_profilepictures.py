@@ -1,8 +1,8 @@
 """add ProfilePictures
 
-Revision ID: 108499735525
+Revision ID: 4b79f167aeed
 Revises: 84ae2bb577d4
-Create Date: 2022-05-03 22:42:19.676799
+Create Date: 2022-05-03 22:52:38.537929
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '108499735525'
+revision = '4b79f167aeed'
 down_revision = '84ae2bb577d4'
 branch_labels = None
 depends_on = None
@@ -21,10 +21,10 @@ def upgrade():
     op.create_table('profile_pictures',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('picture_name', sa.String(length=255), nullable=False),
+    sa.Column('name', sa.String(length=255), nullable=False),
     sa.Column('added', sa.DATETIME(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('picture_name')
+    sa.UniqueConstraint('name')
     )
     # ### end Alembic commands ###
 
