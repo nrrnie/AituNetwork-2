@@ -1,5 +1,6 @@
 from werkzeug.datastructures import FileStorage
 from typing import Union
+from uuid import uuid4
 import os
 
 
@@ -19,9 +20,14 @@ class PicturesDB:
                 os.mkdir(table_path)
                 print('Table', table, 'created!')
 
-    def add_picture(self, table: str, picture: FileStorage) -> None:
+    def add_picture(self, table: str, picture: FileStorage) -> Union[bool, str]:
         if table not in self.tables:
             print('Table', table, 'not in Tables list!')
-            return
+            return False
 
-        picture.save(os.path.join(self.database_path, table))
+        filename = uuid4().__str__() + '.' + picture.filename.split('.')[-1]
+
+        table_path = os.path.join(self.database_path, table)
+        picture.save(os.path.join(table_path, filename))
+
+        return filename
