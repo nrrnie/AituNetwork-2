@@ -13,7 +13,7 @@ class PicturesDB:
             os.mkdir(self.database_path)
             print('Pictures Database created!')
 
-        self.tables = ['profile-image']
+        self.tables = ['profile-pictures']
         for table in self.tables:
             table_path = os.path.join(self.database_path, table)
             if not os.path.exists(table_path):
@@ -31,3 +31,8 @@ class PicturesDB:
         picture.save(os.path.join(table_path, filename))
 
         return filename
+
+    def get_picture_path(self, table: str, filename: str) -> str:
+        path = os.path.join(self.database_path, table)
+        path = os.path.join(path, filename)
+        return path
