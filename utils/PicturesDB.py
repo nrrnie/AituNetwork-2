@@ -1,3 +1,5 @@
+from werkzeug.datastructures import FileStorage
+from typing import Union
 import os
 
 
@@ -16,3 +18,10 @@ class PicturesDB:
             if not os.path.exists(table_path):
                 os.mkdir(table_path)
                 print('Table', table, 'created!')
+
+    def add_picture(self, table: str, picture: FileStorage) -> None:
+        if table not in self.tables:
+            print('Table', table, 'not in Tables list!')
+            return
+
+        picture.save(os.path.join(self.database_path, table))
