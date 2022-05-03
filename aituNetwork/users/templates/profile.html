@@ -12,13 +12,19 @@
     <div class="main-body">
         <div class="row">
             <div class="col-lg-2">
-                {{ sidebar(current_user) }}
+                {{ sidebar(user) }}
             </div>
             <div class="col-lg-4">
                 <div class="card mb-5">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img src="/static/images/logo.png" alt="Admin" class="p-1 img-fluid">
+                            {% if user.profile_picture %}
+                            <img src="{{ url_for('utils.get_picture', filename=user.profile_picture) }}" alt="Admin"
+                                 class="p-1 w-75">
+                            {% else %}
+                            <img src="https://i.pinimg.com/originals/fc/04/73/fc047347b17f7df7ff288d78c8c281cf.png"
+                                 alt="Admin" class="p-1 w-75">
+                            {% endif %}
                             <div class="mt-3">
                                 <h4>{{ profile_user['first_name'] }} {{ profile_user['last_name'] }}</h4>
                                 <!-- If user visited his own profile -->
@@ -38,9 +44,8 @@
                             </div>
                         </div>
                         <hr class="my-3">
-                        <p class="d-flex text-secondary align-items-center mb-2 p-2">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
+                        <p class="text-center text-secondary mb-2 p-2">
+                            {{ user.about_me }}
                         </p>
                     </div>
                 </div>
