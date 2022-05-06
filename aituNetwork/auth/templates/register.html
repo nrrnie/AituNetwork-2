@@ -24,6 +24,7 @@
         <label for="password-confirm-input" class="form-label">Password Confirm</label>
         <input type="password" class="form-control" minlength="8" id="password-confirm-input" name="password-confirm" required>
     </div>
+    <a href="{{ url_for('auth.login') }}" class="d-block text-secondary text-decoration-none mb-3">Already have an account?</a>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 {% endblock %}
