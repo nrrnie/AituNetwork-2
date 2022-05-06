@@ -36,6 +36,6 @@ def settings():
         db.session.add(profile_picture)
         db.session.commit()
 
-    flash('Info was updated')
+    flash('Info was updated', 'success')
     return redirect(url_for('users.settings'))
 

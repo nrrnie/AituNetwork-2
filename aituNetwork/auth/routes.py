@@ -32,9 +32,9 @@ def login():
         session['user'] = user
         return redirect(url_for('main.home'))
 
-    flash('Barcode or password is wrong')
+    flash('Barcode or password is wrong', 'danger')
 
-    return render_template('login.html')
+    return redirect(url_for('auth.login'))
 
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -53,7 +53,7 @@ def register():
         user = Users.query.filter_by(barcode=barcode).first()
 
         # If account wasn't activated, new registration is accepted
-        if user.is_activated == 0:
+        if user is not None and user.is_activated == 0:
             db.session.delete(user)
             db.session.commit()
             user = None
@@ -64,12 +64,12 @@ def register():
             db.session.add(user)
             db.session.commit()
 
-            flash('User was successfully created!')
+            flash('User was successfully created!', 'success')
             return redirect(url_for('auth.login'))
         else:
-            flash('Barcode is already registered')
+            flash('Barcode is already registered', 'danger')
     else:
-        flash('Passwords does not match')
+        flash('Passwords does not match', 'danger')
 
     return render_template('register.html')
 
