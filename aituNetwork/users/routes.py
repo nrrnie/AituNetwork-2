@@ -20,7 +20,14 @@ def profile(slug: str):
 
     user = session['user']
 
-    return render_template('profile.html', user=user, profile_user=profile_user)
+    # current page
+    profile_status = None
+    if user.id == profile_user.id:
+        profile_status = 'own profile'
+    elif user.id != profile_user.id:
+        profile_status = "user's profile"
+
+    return render_template('profile.html', user=user, profile_user=profile_user, profile_status=profile_status)
 
 
 @users.route('/settings', methods=['GET', 'POST'])
