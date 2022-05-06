@@ -28,12 +28,14 @@
                             {% endif %}
                             <div class="mt-3">
                                 <h4>{{ profile_user['first_name'] }} {{ profile_user['last_name'] }}</h4>
+
+                                {% if profile_status == 'own profile' %}
                                 <!-- If user visited his own profile -->
                                 <a class="btn btn-primary mt-2" href="{{ url_for('users.settings') }}">Edit Profile</a>
-
-                                <!-- If user visited profile of another user (not friend) -->
-                                <!-- <a class="btn btn-secondary mt-2">Add to Friend</a> -->
-                                <!-- <a class="btn btn-primary mt-2">Message</a> -->
+                                {% elif profile_status== "user's profile" %}
+                                <a class="btn btn-secondary mt-2">Add to Friend</a>
+                                <a class="btn btn-primary mt-2">Message</a>
+                                {% endif %}
 
                                 <!-- If user visited profile of another user (not friend but was requested to be friends) -->
                                 <!-- <a class="btn btn-secondary mt-2">Cancel request</a> -->
