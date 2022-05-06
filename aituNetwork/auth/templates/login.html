@@ -13,6 +13,7 @@
         <label for="password-input" class="form-label">Password</label>
         <input type="password" class="form-control" minlength="8" id="password-input" name="password" required>
     </div>
+    <a href="{{ url_for('auth.register') }}" class="d-block text-secondary text-decoration-none mb-3">Don't have an account yet?</a>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 {% endblock %}
