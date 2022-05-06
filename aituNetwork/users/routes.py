@@ -1,19 +1,9 @@
 from flask import request, render_template, session
 from flask import redirect, url_for, flash
-import functools
 from aituNetwork.users import users
 from aituNetwork.models import Users, ProfilePictures
 from aituNetwork import db
-from utils import picturesDB
-
-
-def auth_required(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        if session.get('user') is None:
-            return redirect(url_for('auth.login'))
-        return func(*args, **kwargs)
-    return wrapper
+from utils import picturesDB, auth_required
 
 
 @users.route('/<slug>', methods=['GET'])
