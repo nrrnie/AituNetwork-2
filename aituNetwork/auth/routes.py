@@ -51,6 +51,13 @@ def register():
 
     if password == password_confirm:
         user = Users.query.filter_by(barcode=barcode).first()
+
+        # If account wasn't activated, new registration is accepted
+        if user.is_activated == 0:
+            db.session.delete(user)
+            db.session.commit()
+            user = None
+
         if user is None:
             hashed_password = sha256_crypt.hash(password)
             user = Users(barcode=barcode, first_name=first_name, last_name=last_name, password=hashed_password)
