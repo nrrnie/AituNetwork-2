@@ -39,3 +39,9 @@ def settings():
     flash('Info was updated', 'success')
     return redirect(url_for('users.settings'))
 
+
+@users.route('/friends', methods=['GET'])
+@auth_required
+def friends():
+    if request.method == 'GET':
+        return render_template('friends.html', user=session['user'])

@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+
+{% block title %} Friends {% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="main-body">
+        <div class="row">
+            <div class="col-lg-2">
+                {{ sidebar(user) }}
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Friends</h3>
+                        <hr class="my-3">
+                        <!-- Start friend row -->
+                        <div class="row">
+                            <div class="col-lg-8 d-flex">
+                                <img src="{{ url_for('utils.get_picture', filename='14943be8-3602-47d1-8262-ba017d8d48fb.jpg') }}"
+                                     class="me-3" width="110" height="110">
+                                <div class="friend-info">
+                                    <a class="d-block text-decoration-none text-black fs-4 text mb-4" role="button">Dias
+                                        Nespayev</a>
+                                    <a class="btn btn-sm btn-primary mt-2">Message</a>
+                                    <a class="btn btn-sm btn-secondary mt-2">Remove from friends</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End friend row -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
