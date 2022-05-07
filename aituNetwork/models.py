@@ -38,3 +38,11 @@ class Friends(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, index=True, nullable=False)
     friend_id = db.Column(db.Integer, index=True, nullable=False)
+
+
+class Posts(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, index=True, nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    likes = db.Column(db.Integer, nullable=False, default=0)
+    created = db.Column(db.DATETIME, nullable=False, default=datetime.now)
