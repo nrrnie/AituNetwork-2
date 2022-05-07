@@ -52,3 +52,11 @@ def settings():
 def friends():
     if request.method == 'GET':
         return render_template('friends.html', user=session['user'])
+
+
+@users.route('/add/post', methods=['POST'])
+@auth_required
+def add_post():
+    post = request.form.get('post-content')
+
+    return post

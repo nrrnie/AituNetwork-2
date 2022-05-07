@@ -104,20 +104,31 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="card mb-5">
-                            <div class="card-body">
-                                <h4 class="d-flex align-items-center mb-3">Posts</h4>
-                                <hr class="my-3">
-                                <div class="posts mb-3">
-                                    {% if posts|length == 0 %}
-                                    <h6 class="text-secondary text-center fw-normal">There is nothing yet.</h6>
-                                    {% else %}
 
-                                    {% endif %}
-                                </div>
+                {% if user.id == profile_user.id %}
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <h4 class="mb-3">Create new post</h4>
+                        <form method="POST" action="{{ url_for('users.add_post') }}">
+                            <textarea class="form-control mb-3" rows="3" required name="post-content" minlength="10"></textarea>
+                            <div class="d-grid col-6 mx-auto">
+                                <button type="submit" class="btn btn-primary mb-3 px-5">Post</button>
                             </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <h4 class="d-flex align-items-center mb-3">Posts</h4>
+                        <hr class="my-3">
+                        <div class="posts mb-3">
+                            {% if posts|length == 0 %}
+                            <h6 class="text-secondary text-center fw-normal">There is nothing yet.</h6>
+                            {% else %}
+
+                            {% endif %}
                         </div>
                     </div>
                 </div>
