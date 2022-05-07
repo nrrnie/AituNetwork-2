@@ -18,6 +18,8 @@ def profile(slug: str):
     if profile_picture:
         profile_user.profile_picture = profile_picture.name
 
+    posts = Posts.query.filter_by(user_id=profile_user.id).all()
+
     user = session['user']
 
     # current page
@@ -27,7 +29,7 @@ def profile(slug: str):
     elif user.id != profile_user.id:
         profile_status = "user's profile"
 
-    return render_template('profile.html', user=user, profile_user=profile_user, profile_status=profile_status)
+    return render_template('profile.html', user=user, profile_user=profile_user, profile_status=profile_status, posts=posts)
 
 
 @users.route('/settings', methods=['GET', 'POST'])
