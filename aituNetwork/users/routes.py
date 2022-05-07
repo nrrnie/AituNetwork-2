@@ -18,7 +18,7 @@ def profile(slug: str):
     if profile_picture:
         profile_user.profile_picture = profile_picture.name
 
-    posts = Posts.query.filter_by(user_id=profile_user.id).all()
+    posts = Posts.query.filter_by(user_id=profile_user.id).order_by(Posts.id.desc()).all()
 
     user = session['user']
 
