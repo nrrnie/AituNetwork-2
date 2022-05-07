@@ -1,4 +1,5 @@
 {% extends 'main.html' %}
+{% from 'post_macros.html' import post_block with context %}
 
 {% block title %} {{ profile_user['first_name'] }} {{ profile_user['last_name'] }} {% endblock %}
 
@@ -112,23 +113,36 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="card mb-5">
-                            <div class="card-body">
-                                <h4 class="d-flex align-items-center mb-3">Posts</h4>
-                                <hr class="my-3">
-                                <div class="posts mb-3">
-                                    {% if posts|length == 0 %}
-                                    <h6 class="text-secondary text-center fw-normal">There is nothing yet.</h6>
-                                    {% else %}
 
-                                    {% endif %}
-                                </div>
+                {% if user.id == profile_user.id %}
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <h4 class="mb-3">Create new post</h4>
+                        <form method="POST" action="{{ url_for('users.add_post') }}">
+                            <textarea class="form-control mb-3" rows="3" required name="post-content"
+                                      minlength="10"></textarea>
+                            <div class="d-grid col-6 mx-auto">
+                                <button type="submit" class="btn btn-primary mb-3 px-5">Post</button>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
+                {% endif %}
+
+                {% if posts|length == 0 %}
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <h4 class="d-flex align-items-center mb-3">Posts</h4>
+                        <hr class="my-3">
+                        <h6 class="text-secondary text-center fw-normal">There is nothing yet.</h6>
+                    </div>
+                </div>
+                {% else %}
+                    {% for post in posts %}
+                        {{ post_block(post) }}
+                    {% endfor %}
+                {% endif %}
+
             </div>
         </div>
     </div>

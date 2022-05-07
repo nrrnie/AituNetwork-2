@@ -1,7 +1,7 @@
 from flask import request, render_template, session
 from flask import redirect, url_for, flash
 from aituNetwork.users import users
-from aituNetwork.models import Users, ProfilePictures, Friends
+from aituNetwork.models import Users, ProfilePictures, Friends, Posts
 from aituNetwork import db
 from utils import picturesDB, auth_required
 
@@ -17,6 +17,8 @@ def profile(slug: str):
     profile_picture = ProfilePictures.query.filter_by(user_id=profile_user.id).order_by(ProfilePictures.id.desc()).first()
     if profile_picture:
         profile_user.profile_picture = profile_picture.name
+
+    posts = Posts.query.filter_by(user_id=profile_user.id).order_by(Posts.id.desc()).all()
 
     user = session['user']
 
@@ -36,7 +38,7 @@ def profile(slug: str):
     elif am_i_friend is not None:
         friend_status = 2
 
-    return render_template('profile.html', user=user, profile_user=profile_user, friend_status=friend_status)
+    return render_template('profile.html', user=user, profile_user=profile_user, friend_status=friend_status, posts=posts)
 
 
 @users.route('/settings', methods=['GET', 'POST'])
@@ -55,7 +57,14 @@ def settings():
     flash('Info was updated', 'success')
     return redirect(url_for('users.settings'))
 
+  
+@users.route('/friends', methods=['GET'])
+@auth_required
+def friends():
+    if request.method == 'GET':
+        return render_template('friends.html', user=session['user'])
 
+  
 @users.route('/add/friend')
 @auth_required
 def add_friend():
@@ -65,3 +74,16 @@ def add_friend():
     db.session.add(friend)
     db.session.commit()
     return "Friend request is sent"
+
+
+@users.route('/add/post', methods=['POST'])
+@auth_required
+def add_post():
+    post_content = request.form.get('post-content')
+
+    post = Posts(user_id=session['user'].id, content=post_content)
+    db.session.add(post)
+    db.session.commit()
+
+    flash('Your post is added!', 'success')
+    return redirect(url_for('users.profile', slug=session['user'].slug))
