@@ -1,7 +1,7 @@
 from flask import request, render_template, session
 from flask import redirect, url_for, flash
 from aituNetwork.users import users
-from aituNetwork.models import Users, ProfilePictures
+from aituNetwork.models import Users, ProfilePictures, Posts
 from aituNetwork import db
 from utils import picturesDB, auth_required
 
@@ -57,6 +57,11 @@ def friends():
 @users.route('/add/post', methods=['POST'])
 @auth_required
 def add_post():
-    post = request.form.get('post-content')
+    post_content = request.form.get('post-content')
 
-    return post
+    post = Posts(user_id=session['user'].id, content=post_content)
+    db.session.add(post)
+    db.session.commit()
+
+    flash('Your post is added!', 'success')
+    return redirect(url_for('users.profile', slug=session['user'].slug))
