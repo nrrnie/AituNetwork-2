@@ -29,14 +29,22 @@
                             <div class="mt-3">
                                 <h4>{{ profile_user['first_name'] }} {{ profile_user['last_name'] }}</h4>
 
-                                {% if profile_status == 'own profile' %}
+                                {% if user.id == profile_user.id %}
                                 <!-- If user visited his own profile -->
                                 <a class="btn btn-primary mt-2" href="{{ url_for('users.settings') }}">Edit Profile</a>
-                                {% elif profile_status== "user's profile" %}
-                                <a class="btn btn-secondary mt-2">Add to Friend</a>
+                                {% elif friend_status == 1 %}
+                                <a class="btn btn-secondary mt-2">Cancel request</a>
+                                <a class="btn btn-primary mt-2">Message</a>
+                                {% elif friend_status == 2 %}
+                                <a class="btn btn-secondary mt-2">Accept request</a>
+                                <a class="btn btn-primary mt-2">Message</a>
+                                {% elif friend_status == 3 %}
+                                 <a class="btn btn-secondary mt-2">Remove from friends</a>
+                                 <a class="btn btn-primary mt-2">Message</a>
+                                {% else %}
+                                <a class="btn btn-secondary mt-2" href="{{url_for('users.add_friend', user_id=user.id, friend_id=profile_user.id)}}">Add to Friend</a>
                                 <a class="btn btn-primary mt-2">Message</a>
                                 {% endif %}
-
                                 <!-- If user visited profile of another user (not friend but was requested to be friends) -->
                                 <!-- <a class="btn btn-secondary mt-2">Cancel request</a> -->
                                 <!-- <a class="btn btn-primary mt-2">Message</a>-->
