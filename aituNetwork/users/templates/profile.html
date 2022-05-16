@@ -34,7 +34,7 @@
                                 <!-- If user visited his own profile -->
                                 <a class="btn btn-primary mt-2" href="{{ url_for('users.settings') }}">Edit Profile</a>
                                 {% elif friend_status == 1 %}
-                                <a class="btn btn-secondary mt-2">Cancel request</a>
+                                <a class="btn btn-secondary mt-2" href="{{ url_for('users.remove_friend', user_id=user.id, friend_id=profile_user.id) }}">Cancel request</a>
                                 <a class="btn btn-primary mt-2">Message</a>
                                 {% elif friend_status == 2 %}
                                 <a class="btn btn-secondary mt-2">Accept request</a>

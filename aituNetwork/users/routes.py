@@ -87,9 +87,22 @@ def add_friend():
     user_id = request.values.get('user_id')
     friend_id = request.values.get('friend_id')
 
-    if Friends.query.filter_by(user_id=user_id, friend_id=friend_id) is None:
+    if Friends.query.filter_by(user_id=user_id, friend_id=friend_id).first() is None:
         friend = Friends(user_id=user_id, friend_id=friend_id)
         db.session.add(friend)
+        db.session.commit()
+
+    return redirect(url_for('users.profile', slug=Users.query.get(friend_id).slug))
+
+
+@users.route('/remove/friend')
+@auth_required
+def remove_friend():
+    user_id = request.values.get('user_id')
+    friend_id = request.values.get('friend_id')
+
+    if Friends.query.filter_by(user_id=user_id, friend_id=friend_id).first() is not None:
+        Friends.query.filter_by(user_id=user_id, friend_id=friend_id).delete()
         db.session.commit()
 
     return redirect(url_for('users.profile', slug=Users.query.get(friend_id).slug))
