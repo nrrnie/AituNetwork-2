@@ -86,9 +86,12 @@ def friends():
 def add_friend():
     user_id = request.values.get('user_id')
     friend_id = request.values.get('friend_id')
-    friend = Friends(user_id=user_id, friend_id=friend_id)
-    db.session.add(friend)
-    db.session.commit()
+
+    if Friends.query.filter_by(user_id=user_id, friend_id=friend_id) is None:
+        friend = Friends(user_id=user_id, friend_id=friend_id)
+        db.session.add(friend)
+        db.session.commit()
+
     return redirect(url_for('users.profile', slug=Users.query.get(friend_id).slug))
 
 
