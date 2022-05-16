@@ -89,7 +89,7 @@ def add_friend():
     friend = Friends(user_id=user_id, friend_id=friend_id)
     db.session.add(friend)
     db.session.commit()
-    return "Friend request is sent"
+    return redirect(url_for('users.profile', slug=Users.query.get(friend_id).slug))
 
 
 @users.route('/add/post', methods=['POST'])
