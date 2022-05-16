@@ -14,7 +14,8 @@ def profile(slug: str):
     if profile_user is None:
         return 'user is not found'
 
-    profile_picture = ProfilePictures.query.filter_by(user_id=profile_user.id).order_by(ProfilePictures.id.desc()).first()
+    profile_picture = ProfilePictures.query.filter_by(user_id=profile_user.id).order_by(
+        ProfilePictures.id.desc()).first()
     if profile_picture:
         profile_user.profile_picture = profile_picture.name
 
@@ -38,7 +39,8 @@ def profile(slug: str):
     elif am_i_friend is not None:
         friend_status = 2
 
-    return render_template('profile.html', user=user, profile_user=profile_user, friend_status=friend_status, posts=posts)
+    return render_template('profile.html', user=user, profile_user=profile_user, friend_status=friend_status,
+                           posts=posts)
 
 
 @users.route('/settings', methods=['GET', 'POST'])
@@ -52,19 +54,33 @@ def settings():
         picture_name = picturesDB.add_picture('profile-pictures', picture)
         profile_picture = ProfilePictures(user_id=session['user'].id, name=picture_name)
         db.session.add(profile_picture)
-        db.session.commit()
+
+    slug = request.form.get('slug')
+    first_name = request.form.get('first-name')
+    last_name = request.form.get('last-name')
+    about_me = request.form.get('about-me')
+
+    if Users.query.filter_by(slug=slug).first() is not None and slug != session['user'].slug:
+        flash('Slug is already taken.', 'danger')
+        return redirect(url_for('users.settings'))
+
+    Users.query.filter_by(id=session['user'].id).update(
+        dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me))
+    db.session.commit()
+
+    session['user'] = Users.query.get(session['user'].id)
 
     flash('Info was updated', 'success')
     return redirect(url_for('users.settings'))
 
-  
+
 @users.route('/friends', methods=['GET'])
 @auth_required
 def friends():
     if request.method == 'GET':
         return render_template('friends.html', user=session['user'])
 
-  
+
 @users.route('/add/friend')
 @auth_required
 def add_friend():
