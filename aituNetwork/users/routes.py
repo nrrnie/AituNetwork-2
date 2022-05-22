@@ -22,21 +22,7 @@ def profile(slug: str):
 
     user = session['user']
 
-    is_my_friend = Friends.query.filter_by(user_id=user.id, friend_id=profile_user.id).first()
-    am_i_friend = Friends.query.filter_by(user_id=profile_user.id, friend_id=user.id).first()
-
-    # friend_status
-    # 1: I sent request
-    # 2: Profile user sent request
-    # 3: Friends
-
-    friend_status = None
-    if is_my_friend is not None and am_i_friend is not None:
-        friend_status = 3
-    elif is_my_friend is not None:
-        friend_status = 1
-    elif am_i_friend is not None:
-        friend_status = 2
+    friend_status = Friends.get_friend_status(user.id, profile_user.id)
 
     return render_template('profile.html', user=user, profile_user=profile_user, friend_status=friend_status,
                            posts=posts)
