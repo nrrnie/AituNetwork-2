@@ -1,5 +1,6 @@
 from flask import request, render_template, session
 from flask import redirect, url_for, flash
+from passlib.hash import sha256_crypt
 from aituNetwork.users import users
 from aituNetwork.models import Users, ProfilePictures, Friends, Posts
 from aituNetwork import db
@@ -44,12 +45,19 @@ def settings():
     first_name = request.form.get('first-name')
     last_name = request.form.get('last-name')
     about_me = request.form.get('about-me')
+    password = request.form.get('password')
+    password_confirm = request.form.get('password-confirm')
+
+    if password != password_confirm:
+        flash('Passwords does not match')
+        return redirect(url_for('users.settings'))
 
     if Users.is_slug_taken(slug) and slug != session['user'].slug:
         flash('Slug is already taken.', 'danger')
         return redirect(url_for('users.settings'))
 
-    update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me)
+    update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me,
+                       password=sha256_crypt.hash(password))
     Users.update_user_info(session['user'].id, update_info)
 
     session['user'] = Users.query.get(session['user'].id)

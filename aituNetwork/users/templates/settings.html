@@ -17,7 +17,8 @@
                         <form method="POST" enctype="multipart/form-data">
                             <div class=" mb-3">
                                 <label for="profile-picture-input" class="form-label">Profile picture</label>
-                                <input type="file" class="form-control" id="profile-picture-input" name="profile-picture">
+                                <input type="file" class="form-control" id="profile-picture-input"
+                                       name="profile-picture">
                             </div>
                             <div class="mb-3">
                                 <label for="slug-input" class="form-label">Slug</label>
@@ -39,6 +40,15 @@
                                 <input type="text" class="form-control" id="about-me-input" name="about-me"
                                        value="{{ user.about_me }}" required>
                             </div>
+                            <div class="mb-3">
+                                <label for="password-input" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password-input" minlength="8" name="password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password-confirm-input" class="form-label">Confirm password</label>
+                                <input type="password" class="form-control" id="password-confirm-input" minlength="8" name="password-confirm" required>
+                            </div>
+
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary m-auto">Save</button>
                             </div>
