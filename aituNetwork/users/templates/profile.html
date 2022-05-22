@@ -129,7 +129,7 @@
                         <h4 class="mb-3">Create new post</h4>
                         <form method="POST" action="{{ url_for('users.add_post') }}">
                             <textarea class="form-control mb-3" rows="3" required name="post-content"
-                                      minlength="10"></textarea>
+                                      minlength="1"></textarea>
                             <div class="d-grid col-6 mx-auto">
                                 <button type="submit" class="btn btn-primary mb-3 px-5">Post</button>
                             </div>
