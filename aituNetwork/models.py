@@ -109,7 +109,6 @@ class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, index=True, nullable=False)
     content = db.Column(db.Text, nullable=False)
-    likes = db.Column(db.Integer, nullable=False, default=0)
     created = db.Column(db.DATETIME, nullable=False, default=datetime.now)
 
     @staticmethod
@@ -121,3 +120,9 @@ class Posts(db.Model):
     @staticmethod
     def get_posts(user_id: int):
         return Posts.query.filter_by(user_id=user_id).order_by(Posts.id.desc()).all()
+
+
+class PostLikes(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, index=True, nullable=False)
+    post_id = db.Column(db.Integer, index=True, nullable=False)
