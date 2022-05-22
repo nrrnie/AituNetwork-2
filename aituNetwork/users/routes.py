@@ -14,8 +14,7 @@ def profile(slug: str):
     if profile_user is None:
         return 'user is not found'
 
-    profile_picture = ProfilePictures.query.filter_by(user_id=profile_user.id).order_by(
-        ProfilePictures.id.desc()).first()
+    profile_picture = ProfilePictures.get_profile_picture(profile_user.id)
     if profile_picture:
         profile_user.profile_picture = profile_picture.name
 
