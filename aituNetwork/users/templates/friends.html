@@ -14,6 +14,11 @@
                     <div class="card-body">
                         <h3>Friends</h3>
                         <hr class="my-3">
+
+                        {% if friend_list|length == 0 %}
+                        <h4 class="text-center">You don't have any friends.</h4>
+                        {% endif %}
+
                         {% for friend in friend_list %}
                         {% set friend = get_user(friend.user_id) %}
                         <div class="row">
