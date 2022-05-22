@@ -45,13 +45,12 @@ def settings():
     last_name = request.form.get('last-name')
     about_me = request.form.get('about-me')
 
-    if Users.query.filter_by(slug=slug).first() is not None and slug != session['user'].slug:
+    if Users.is_slug_taken(slug) and slug != session['user'].slug:
         flash('Slug is already taken.', 'danger')
         return redirect(url_for('users.settings'))
 
-    Users.query.filter_by(id=session['user'].id).update(
-        dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me))
-    db.session.commit()
+    update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me)
+    Users.update_user_info(session['user'].id, update_info)
 
     session['user'] = Users.query.get(session['user'].id)
 
@@ -72,10 +71,7 @@ def add_friend():
     user_id = request.values.get('user_id')
     friend_id = request.values.get('friend_id')
 
-    if Friends.query.filter_by(user_id=user_id, friend_id=friend_id).first() is None:
-        friend = Friends(user_id=user_id, friend_id=friend_id)
-        db.session.add(friend)
-        db.session.commit()
+    Friends.add_friend(user_id, friend_id)
 
     return redirect(url_for('users.profile', slug=Users.query.get(friend_id).slug))
 
@@ -86,9 +82,7 @@ def remove_friend():
     user_id = request.values.get('user_id')
     friend_id = request.values.get('friend_id')
 
-    if Friends.query.filter_by(user_id=user_id, friend_id=friend_id).first() is not None:
-        Friends.query.filter_by(user_id=user_id, friend_id=friend_id).delete()
-        db.session.commit()
+    Friends.remove_friend(user_id, friend_id)
 
     return redirect(url_for('users.profile', slug=Users.query.get(friend_id).slug))
 
@@ -98,9 +92,7 @@ def remove_friend():
 def add_post():
     post_content = request.form.get('post-content')
 
-    post = Posts(user_id=session['user'].id, content=post_content)
-    db.session.add(post)
-    db.session.commit()
+    Posts.add_post(session['user'].id, post_content)
 
     flash('Your post is added!', 'success')
     return redirect(url_for('users.profile', slug=session['user'].slug))

@@ -26,6 +26,15 @@ class Users(db.Model):
     registered = db.Column(db.DATETIME, nullable=False, default=datetime.now)
     is_activated = db.Column(db.Boolean, nullable=False, default=False)
 
+    @staticmethod
+    def is_slug_taken(slug: str) -> bool:
+        return Users.query.filter_by(slug=slug).first() is not None
+
+    @staticmethod
+    def update_user_info(user_id: int, update_info: dict):
+        Users.query.filter_by(id=user_id).update(update_info)
+        db.session.commit()
+
 
 class ProfilePictures(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -43,6 +52,19 @@ class Friends(db.Model):
     user_id = db.Column(db.Integer, index=True, nullable=False)
     friend_id = db.Column(db.Integer, index=True, nullable=False)
     __table_args__ = (db.UniqueConstraint('user_id', 'friend_id'),)
+
+    @staticmethod
+    def add_friend(user_id: int, friend_id: int):
+        if Friends.query.filter_by(user_id=user_id, friend_id=friend_id).first() is None:
+            friend = Friends(user_id=user_id, friend_id=friend_id)
+            db.session.add(friend)
+            db.session.commit()
+
+    @staticmethod
+    def remove_friend(user_id: int, friend_id: int):
+        if Friends.query.filter_by(user_id=user_id, friend_id=friend_id).first() is not None:
+            Friends.query.filter_by(user_id=user_id, friend_id=friend_id).delete()
+            db.session.commit()
 
     @staticmethod
     def get_friend_status(user_id: int, friend_id: int) -> int:
@@ -71,3 +93,9 @@ class Posts(db.Model):
     content = db.Column(db.Text, nullable=False)
     likes = db.Column(db.Integer, nullable=False, default=0)
     created = db.Column(db.DATETIME, nullable=False, default=datetime.now)
+
+    @staticmethod
+    def add_post(user_id: int, content: str):
+        post = Posts(user_id=user_id, content=content)
+        db.session.add(post)
+        db.session.commit()
