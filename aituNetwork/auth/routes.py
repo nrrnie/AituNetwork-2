@@ -1,11 +1,18 @@
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 from flask import render_template, request, flash, session
 from flask import redirect, url_for
 from passlib.hash import sha256_crypt
+from os import getenv
 import functools
 
 from aituNetwork.auth import auth
 from aituNetwork.models import Users
 from aituNetwork import db
+
+from utils import send_email
+
+
+url_serializer = URLSafeTimedSerializer(getenv('SECRET_KEY'))
 
 
 def redirect_if_logged(func):
@@ -64,6 +71,12 @@ def register():
             db.session.add(user)
             db.session.commit()
 
+            token = url_serializer.dumps(barcode, salt=getenv('SECRET_KEY_BARCODE_CONFIRM'))
+            token_link = url_for('auth.confirm_email', token=token, _external=True)
+
+            email = barcode + '@astanait.edu.kz'
+            send_email(email, token_link)
+
             flash('User was successfully created!', 'success')
             return redirect(url_for('auth.login'))
         else:
@@ -78,5 +91,23 @@ def register():
 def logout():
     if session.get('user'):
         del session['user']
+
+    return redirect(url_for('auth.login'))
+
+
+@auth.route('/confirm-email/<token>')
+def confirm_email(token: str):
+    try:
+        barcode = url_serializer.loads(token, salt=getenv('SECRET_KEY_BARCODE_CONFIRM'), max_age=3600)
+    except SignatureExpired:
+        return '<h1>The token is expired!</h1>'
+    except BadTimeSignature:
+        return '<h1>This isn\'t the right token</h1>'
+
+    user = Users.query.filter_by(barcode=barcode).first()
+    user.is_activated = True
+    db.session.commit()
+
+    flash('User was successfully activated!', 'success')
 
     return redirect(url_for('auth.login'))
