@@ -119,7 +119,10 @@ class Posts(db.Model):
 
     @staticmethod
     def get_posts(user_id: int):
-        return Posts.query.filter_by(user_id=user_id).order_by(Posts.id.desc()).all()
+        posts = Posts.query.filter_by(user_id=user_id).order_by(Posts.id.desc()).all()
+        for post in posts:
+            post.likes = PostLikes.get_like_counts(post.id)
+        return posts
 
 
 class PostLikes(db.Model):
@@ -127,3 +130,7 @@ class PostLikes(db.Model):
     user_id = db.Column(db.Integer, index=True, nullable=False)
     post_id = db.Column(db.Integer, index=True, nullable=False)
     __table_args__ = (db.UniqueConstraint('user_id', 'post_id'),)
+
+    @staticmethod
+    def get_like_counts(post_id: int):
+        return PostLikes.query.filter_by(post_id=post_id).count()
