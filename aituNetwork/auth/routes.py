@@ -78,7 +78,9 @@ def register():
             token_link = url_for('auth.confirm_email', token=token, _external=True)
 
             email = barcode + '@astanait.edu.kz'
-            send_email(email, token_link)
+            header = 'Email verification'
+            message = 'Your verification link is %s'
+            send_email(email, token_link, header, message)
 
             flash('User was successfully created!', 'success')
             return redirect(url_for('auth.login'))
@@ -113,4 +115,49 @@ def confirm_email(token: str):
 
     flash('User was successfully activated!', 'success')
 
+    return redirect(url_for('auth.login'))
+
+
+@auth.route('/forgot-password', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'GET':
+        return render_template('forgot-password.html')
+
+    barcode = request.form.get('barcode')
+
+    token = url_serializer.dumps(barcode, salt=getenv('SECRET_KEY_PASSWORD_RECOVER'))
+    token_link = url_for('auth.recover_password', token=token, _external=True)
+
+    email = barcode + '@astanait.edu.kz'
+    header = 'Password recovery'
+    message = 'Your link for password recovery is %s'
+    send_email(email, token_link, header, message)
+
+    flash('Link was sent to your email', 'success')
+    return redirect(url_for('auth.login'))
+
+
+@auth.route('/recover-password/<token>', methods=['GET', 'POST'])
+def recover_password(token: str):
+    try:
+        barcode = url_serializer.loads(token, salt=getenv('SECRET_KEY_PASSWORD_RECOVER'), max_age=3600)
+    except SignatureExpired:
+        return '<h1>The token is expired!</h1>'
+    except BadTimeSignature:
+        return '<h1>This isn\'t the right token</h1>'
+
+    if request.method == 'GET':
+        return render_template('recover-password.html')
+
+    password = request.form.get('new-password')
+    password_confirm = request.form.get('new-password-confirm')
+
+    if password != password_confirm:
+        flash('Passwords does not match', 'danger')
+        return redirect(url_for('auth.recover_password', token=token))
+
+    update_info = dict(password=sha256_crypt.hash(password))
+    Users.update_user_info_by_barcode(barcode, update_info)
+
+    flash('Password was recovered', 'success')
     return redirect(url_for('auth.login'))

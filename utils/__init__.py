@@ -17,12 +17,12 @@ def auth_required(func):
     return wrapper
 
 
-def send_email(to: str, token_link: str):
+def send_email(to: str, token_link: str, header: str, msg: str):
     message = EmailMessage()
-    message['Subject'] = 'Email verification'
+    message['Subject'] = header
     message['From'] = getenv('SMTP_SENDER')
     message['To'] = to
-    message.set_content('Your verification link is %s' % token_link)
+    message.set_content(msg % token_link)
 
     with SMTP_SSL('smtp.gmail.com', int(getenv('SMTP_PORT'))) as smtp:
         smtp.login(getenv('SMTP_SENDER'), getenv('SMTP_PASSWORD'))

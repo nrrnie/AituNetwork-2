@@ -35,6 +35,11 @@ class Users(db.Model):
         Users.query.filter_by(id=user_id).update(update_info)
         db.session.commit()
 
+    @staticmethod
+    def update_user_info_by_barcode(barcode: int, update_info: dict):
+        Users.query.filter_by(barcode=barcode).update(update_info)
+        db.session.commit()
+
 
 class ProfilePictures(db.Model):
     id = db.Column(db.Integer, primary_key=True)
