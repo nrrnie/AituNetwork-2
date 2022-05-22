@@ -27,6 +27,10 @@ class Users(db.Model):
     is_activated = db.Column(db.Boolean, nullable=False, default=False)
 
     @staticmethod
+    def get(user_id: int):
+        return Users.query.get(user_id)
+
+    @staticmethod
     def is_slug_taken(slug: str) -> bool:
         return Users.query.filter_by(slug=slug).first() is not None
 
@@ -72,6 +76,15 @@ class Friends(db.Model):
             db.session.commit()
 
     @staticmethod
+    def get_friend_list(user_id: int):
+        return Friends.query.filter(
+            Friends.user_id.in_(
+                Friends.query.filter_by(user_id=user_id).with_entities(Friends.friend_id)
+            ),
+            Friends.friend_id == user_id
+        ).all()
+
+    @staticmethod
     def get_friend_status(user_id: int, friend_id: int) -> int:
         is_my_friend = Friends.query.filter_by(user_id=user_id, friend_id=friend_id).first()
         am_i_friend = Friends.query.filter_by(user_id=friend_id, friend_id=user_id).first()
@@ -104,3 +117,7 @@ class Posts(db.Model):
         post = Posts(user_id=user_id, content=content)
         db.session.add(post)
         db.session.commit()
+
+    @staticmethod
+    def get_posts(user_id: int):
+        return Posts.query.filter_by(user_id=user_id).order_by(Posts.id.desc()).all()

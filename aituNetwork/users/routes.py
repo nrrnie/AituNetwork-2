@@ -19,14 +19,15 @@ def profile(slug: str):
     if profile_picture:
         profile_user.profile_picture = profile_picture.name
 
-    posts = Posts.query.filter_by(user_id=profile_user.id).order_by(Posts.id.desc()).all()
+    posts = Posts.get_posts(profile_user.id)
 
     user = session['user']
 
     friend_status = Friends.get_friend_status(user.id, profile_user.id)
+    friend_list = Friends.get_friend_list(profile_user.id)[:6]
 
     return render_template('profile.html', user=user, profile_user=profile_user, friend_status=friend_status,
-                           posts=posts)
+                           posts=posts, friend_list=friend_list)
 
 
 @users.route('/settings', methods=['GET', 'POST'])
