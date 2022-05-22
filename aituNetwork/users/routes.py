@@ -67,11 +67,11 @@ def settings():
     return redirect(url_for('users.settings'))
 
 
-@users.route('/friends', methods=['GET'])
+@users.route('/friends')
 @auth_required
 def friends():
-    if request.method == 'GET':
-        return render_template('friends.html', user=session['user'])
+    friend_list = Friends.get_friend_list(session['user'].id)
+    return render_template('friends.html', user=session['user'], friend_list=friend_list)
 
 
 @users.route('/add/friend')
