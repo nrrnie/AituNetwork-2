@@ -11,7 +11,6 @@ from aituNetwork import db
 
 from utils import send_email
 
-
 url_serializer = URLSafeTimedSerializer(getenv('SECRET_KEY'))
 
 
@@ -21,6 +20,7 @@ def redirect_if_logged(func):
         if session.get('user') is not None:
             return redirect(url_for('users.profile', slug=session['user'].slug))
         return func(*args, **kwargs)
+
     return wrapper
 
 
@@ -35,11 +35,14 @@ def login():
 
     user = Users.query.filter_by(barcode=barcode).first()
 
-    if user is not None and sha256_crypt.verify(password, user.password):
+    if user is None or sha256_crypt.verify(password, user.password) is False:
+        flash('Barcode or password is wrong', 'danger')
+
+    if user is not None and user.is_activated is False:
+        flash('User is not activated yet. Check your email.', 'danger')
+    elif user is not None and sha256_crypt.verify(password, user.password):
         session['user'] = user
         return redirect(url_for('main.home'))
-
-    flash('Barcode or password is wrong', 'danger')
 
     return redirect(url_for('auth.login'))
 
