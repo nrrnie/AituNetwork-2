@@ -2,3 +2,4 @@ venv
 .idea
 .env
 pictures
+__pycache__
