@@ -126,3 +126,4 @@ class PostLikes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, index=True, nullable=False)
     post_id = db.Column(db.Integer, index=True, nullable=False)
+    __table_args__ = (db.UniqueConstraint('user_id', 'post_id'),)
