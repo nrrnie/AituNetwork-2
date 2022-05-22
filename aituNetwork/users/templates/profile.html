@@ -67,6 +67,11 @@
                         <h5 class="d-flex align-items-center">Friends</h5>
                         <hr class="my-3">
                         <div class="friends d-flex justify-content-center row row-cols-3">
+
+                            {% if friend_list|length == 0 %}
+                                {{ profile_user.first_name }} does not have any friends.
+                            {% endif %}
+
                             {% for friend in friend_list %}
                             {% set friend = get_user(friend.user_id) %}
                             {% set picture = get_picture(friend.id) %}
