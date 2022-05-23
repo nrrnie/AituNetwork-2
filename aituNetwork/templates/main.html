@@ -15,6 +15,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
+
+<script>
+    if {% user %}
+    let current_user = {{ user.id }}
+    {% endif %}
+</script>
+
 {% block body %}{% endblock %}
 
 <div class="alerts position-fixed d-flex flex-column justify-content-center" style="z-index: 1; top: 50px; right: 50px">
