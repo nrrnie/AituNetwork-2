@@ -131,7 +131,11 @@ class Posts(db.Model):
         # Also show content of user
         friend_list.append(user_id)
 
-        return Posts.query.filter(Posts.author_id.in_(friend_list)).order_by(Posts.id.desc()).all()
+        posts = Posts.query.filter(Posts.author_id.in_(friend_list)).order_by(Posts.id.desc()).all()
+        for post in posts:
+            post.likes = PostLikes.get_like_counts(post.id)
+
+        return posts
 
 
 class PostLikes(db.Model):
