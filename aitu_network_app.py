@@ -3,7 +3,6 @@ from os import getenv
 
 from aituNetwork import create_app
 
-
 app = create_app()
 socketio = SocketIO(app)
 
