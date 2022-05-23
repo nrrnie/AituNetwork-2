@@ -17,7 +17,7 @@
 <body>
 
 <script>
-    if {% user %}
+    {% if  user %}
     let current_user = {{ user.id }}
     {% endif %}
 </script>
