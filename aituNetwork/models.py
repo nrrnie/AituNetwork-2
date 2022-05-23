@@ -124,6 +124,15 @@ class Posts(db.Model):
             post.likes = PostLikes.get_like_counts(post.id)
         return posts
 
+    @staticmethod
+    def get_feed(user_id: int):
+        friend_list = [friend.user_id for friend in Friends.get_friend_list(user_id)]
+
+        # Also show content of user
+        friend_list.append(user_id)
+
+        return Posts.query.filter(Posts.author_id.in_(friend_list)).order_by(Posts.id.desc()).all()
+
 
 class PostLikes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
