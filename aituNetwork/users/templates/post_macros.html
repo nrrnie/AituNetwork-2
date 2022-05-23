@@ -2,8 +2,13 @@
 <div class="card post {% if is_user_liked(user.id, post.id) %}liked{% endif %}" id="post-{{ post.id }}">
     <div class="card-block p-3">
         <div class="d-flex">
+            {% if profile_user.profile_picture %}
             <img src="{{ url_for('utils.get_picture', filename=profile_user.profile_picture) }}"
                  class="rounded-circle" width="64" height="64">
+            {% else %}
+            <img src="https://i.pinimg.com/originals/fc/04/73/fc047347b17f7df7ff288d78c8c281cf.png"
+                 class="rounded-circle" width="64" height="64">
+            {% endif %}
             <div class="d-flex justify-content-between w-100 ps-3">
                 <div>
                     <h5 class="fw-normal">{{ profile_user['first_name'] }} {{
