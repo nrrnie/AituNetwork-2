@@ -107,19 +107,19 @@ class Friends(db.Model):
 
 class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, index=True, nullable=False)
+    author_id = db.Column(db.Integer, index=True, nullable=False)
     content = db.Column(db.Text, nullable=False)
     created = db.Column(db.DATETIME, nullable=False, default=datetime.now)
 
     @staticmethod
-    def add_post(user_id: int, content: str):
-        post = Posts(user_id=user_id, content=content)
+    def add_post(author_id: int, content: str):
+        post = Posts(author_id=author_id, content=content)
         db.session.add(post)
         db.session.commit()
 
     @staticmethod
-    def get_posts(user_id: int):
-        posts = Posts.query.filter_by(user_id=user_id).order_by(Posts.id.desc()).all()
+    def get_posts(author_id: int):
+        posts = Posts.query.filter_by(author_id=author_id).order_by(Posts.id.desc()).all()
         for post in posts:
             post.likes = PostLikes.get_like_counts(post.id)
         return posts
