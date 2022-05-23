@@ -10,20 +10,24 @@
                 {{ sidebar(user) }}
             </div>
             <div class="col-lg-10">
-                <div class="card">
-                    <div class="card-body">
-                        <h2>Home</h2>
-                        <hr class="my-3">
-                        <div class="posts mb-3">
-                            {% if posts|length == 0 %}
-                            <h4 class="text-secondary text-center fw-normal">You don't have any posts yet. Add friends
-                                or join groups!</h4>
-                            {% else %}
+                {% if posts|length == 0 %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h2>Home</h2>
+                            <hr class="my-3">
+                            <div class="posts mb-3">
 
-                            {% endif %}
+                                <h4 class="text-secondary text-center fw-normal">You don't have any posts yet. Add friends
+                                    or join groups!</h4>
+
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% else %}
+                    {% for post in posts %}
+                        {{ post_block(post) }}
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
