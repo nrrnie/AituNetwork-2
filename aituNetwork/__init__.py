@@ -22,6 +22,7 @@ def create_app():
         migrate.init_app(app, db)
 
         ses.init_app(app)
+        SqlAlchemySessionInterface(app, db, 'sessions', 'sess_')
 
     from aituNetwork.auth import auth
     app.register_blueprint(auth, url_prefix='/auth')
