@@ -1,5 +1,5 @@
 {% macro post_block(post) %}
-<div class="card post {% if is_user_liked(user.id, post.id) %}liked{% endif %}" id="post-{{ post.id }}">
+<div class="card post mb-3 {% if is_user_liked(user.id, post.id) %}liked{% endif %}" id="post-{{ post.id }}">
     <div class="card-block p-3">
         <div class="d-flex">
             {% set post_user = get_user(post.author_id) %}
@@ -14,8 +14,9 @@
             {% endif %}
             <div class="d-flex justify-content-between w-100 ps-3">
                 <div>
-                    <h5 class="fw-normal">{{ post_user['first_name'] }} {{
-                        post_user['last_name'] }}</h5>
+                    <a href="{{ url_for('users.profile', slug=post_user['slug']) }}"
+                       class="text-dark text-decoration-none fw-normal">{{ post_user['first_name'] }} {{
+                        post_user['last_name'] }}</a>
                     <p class="fs-6 text-secondary">{{ post['created'] }}</p>
                 </div>
                 <div>
