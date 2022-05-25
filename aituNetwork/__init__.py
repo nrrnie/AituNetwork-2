@@ -30,6 +30,8 @@ def create_app():
     app.register_blueprint(users, url_prefix='/users')
     from aituNetwork.utils import utils
     app.register_blueprint(utils, url_prefix='/utils')
+    from aituNetwork.chat import chat
+    app.register_blueprint(chat, url_prefix='/chat')
 
     @app.route('/')
     def main():
