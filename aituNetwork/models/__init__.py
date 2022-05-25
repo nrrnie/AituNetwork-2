@@ -4,3 +4,6 @@ from aituNetwork.models.Friends import Friends
 from aituNetwork.models.Users import Users
 from aituNetwork.models.Posts import Posts
 from aituNetwork.models.ProfilePictures import ProfilePictures
+from aituNetwork.models.Chats import Chats
+from aituNetwork.models.Messages import Messages
+from aituNetwork.models.UsersChats import UsersChats
