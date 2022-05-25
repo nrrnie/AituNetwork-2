@@ -16,13 +16,18 @@
                             Name: mercurial
                             <hr>
                         </div>
-                        <div class="chat">
-                            <div style="overflow: auto; height: 800px"></div>
-                            <div class="position-relative">
+
+                        <div class="dialog">
+                            <div style="overflow: auto; min-height: 800px"></div>
+
+                        </div>
+                        <div class="position-relative">
                                 <textarea class="position-absolute bottom-0 form-control" aria-multiline="true"
                                           oninput='if(this.scrollHeight <= 156) { this.style.height = ""; this.style.height = this.scrollHeight + "px" }'
-                                          style="resize: none"></textarea>
-                            </div>
+                                          style="max-width: 90% !important; resize: none" rows="1"></textarea>
+                            <button type="submit" class="btn btn-primary position-absolute bottom-0 end-0">
+                                Send
+                            </button>
                         </div>
                     </div>
                 </div>
