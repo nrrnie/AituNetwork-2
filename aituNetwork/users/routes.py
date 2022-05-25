@@ -30,6 +30,19 @@ def profile(slug: str):
                            posts=posts, friend_list=friend_list)
 
 
+@users.route('/friends')
+@auth_required
+def friends():
+    friend_list = Friends.get_friend_list(session['user'].id)
+    return render_template('friends.html', user=session['user'], friend_list=friend_list)
+
+
+@users.route('/messages')
+@auth_required
+def messages():
+    return render_template('messages.html', user=session['user'])
+
+
 @users.route('/settings', methods=['GET', 'POST'])
 @auth_required
 def settings():
@@ -65,13 +78,6 @@ def settings():
 
     flash('Info was updated', 'success')
     return redirect(url_for('users.settings'))
-
-
-@users.route('/friends')
-@auth_required
-def friends():
-    friend_list = Friends.get_friend_list(session['user'].id)
-    return render_template('friends.html', user=session['user'], friend_list=friend_list)
 
 
 @users.route('/add/friend')
