@@ -1,0 +1,34 @@
+{% extends 'main.html' %}
+
+{% block title %} Messages {% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="main-body">
+        <div class="row">
+            <div class="col-lg-2">
+                {{ sidebar(user) }}
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="header sticky-top">
+                            Name: mercurial
+                            <hr>
+                        </div>
+                        <div class="chat">
+                            <div style="overflow: auto; height: 800px"></div>
+                            <div class="position-relative">
+                                <textarea class="position-absolute bottom-0 form-control" aria-multiline="true"
+                                          oninput='if(this.scrollHeight <= 156) { this.style.height = ""; this.style.height = this.scrollHeight + "px" }'
+                                          style="resize: none"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
