@@ -1,8 +1,6 @@
-from flask import request, send_file
-
-from aituNetwork.models import PostLikes
+from flask import request, send_file, render_template
+from aituNetwork.models import PostLikes, Users
 from aituNetwork.utils import utils
-from aituNetwork import db
 from utils import picturesDB
 
 
@@ -30,3 +28,11 @@ def unlike():
     PostLikes.remove(user_id, post_id)
 
     return dict(status='ok')
+
+
+@utils.route('/generate-message', methods=['POST'])
+def generate_message():
+    user_id = int(request.form.get('user_id'))
+    message = request.form.get('message')
+
+    return render_template('message.html', user=Users.get(user_id), message=message)
