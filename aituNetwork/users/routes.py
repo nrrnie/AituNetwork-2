@@ -2,7 +2,7 @@ from flask import request, render_template, session
 from flask import redirect, url_for, flash
 from passlib.hash import sha256_crypt
 from aituNetwork.users import users
-from aituNetwork.models import Users, ProfilePictures, Friends, Posts
+from aituNetwork.models import Users, ProfilePictures, Friends, Posts, UsersChats, Chats
 from aituNetwork import db
 from utils import picturesDB, auth_required
 
@@ -40,7 +40,11 @@ def friends():
 @users.route('/messages')
 @auth_required
 def messages():
-    return render_template('messages.html', user=session['user'])
+    user = session['user']
+    chats = UsersChats.get_user_chats(user.id)
+    chats = [Chats.get(chat.chat_id) for chat in chats]
+
+    return render_template('messages.html', user=user, chats=chats)
 
 
 @users.route('/settings', methods=['GET', 'POST'])

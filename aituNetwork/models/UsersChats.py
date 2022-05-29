@@ -28,3 +28,9 @@ class UsersChats(db.Model):
 
         chat_user = UsersChats.query.filter(UsersChats.chat_id == chat_id, UsersChats.user_id != user_id).first()
         return chat_user if chat_user is None else chat_user.user_id
+
+    @staticmethod
+    def get_user_chats(user_id: int) -> list:
+        chats = UsersChats.query.filter_by(user_id=user_id).all()
+
+        return chats
