@@ -6,8 +6,6 @@ from random import randint
 from os import getenv
 import functools
 
-from aituNetwork.models import Users
-
 picturesDB = PicturesDB()
 
 
@@ -17,6 +15,7 @@ def auth_required(func):
         if session.get('user') is None:
             return redirect(url_for('auth.login'))
         return func(*args, **kwargs)
+
     return wrapper
 
 
@@ -33,6 +32,8 @@ def send_email(to: str, token_link: str, header: str, msg: str):
 
 
 def random_id():
+    from aituNetwork.models import Users
+
     mn = 1000000
     mx = 9999999
 
