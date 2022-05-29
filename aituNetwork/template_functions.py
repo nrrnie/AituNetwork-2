@@ -1,4 +1,4 @@
-from aituNetwork.models import Users, ProfilePictures, PostLikes
+from aituNetwork.models import Users, ProfilePictures, PostLikes, UsersChats
 
 
 def get_user(user_id: int):
@@ -13,3 +13,8 @@ def is_user_liked(user_id: int, post_id: int):
 
 def get_picture(user_id: int):
     return ProfilePictures.get_profile_picture(user_id)
+
+
+def get_second_chat_user(chat_id: int, user_id: int):
+    print(chat_id, user_id)
+    return UsersChats.get_second_chat_user(chat_id, user_id)
