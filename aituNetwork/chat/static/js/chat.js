@@ -25,16 +25,16 @@ $('document').ready(function () {
 })
 
 function add_message(user_id, message) {
-        $.ajax({
-            url: '/utils/generate-message',
-            method: 'POST',
-            data: {
-                user_id: user_id,
-                message: message
-            },
-            success: function (data) {
-                $('#dialogBox').prepend(data);
-            }
-        })
+    $.ajax({
+        url: '/utils/generate-message',
+        method: 'POST',
+        data: {
+            user_id: user_id,
+            message: message
+        },
+        success: function (data) {
+            $('#dialogBox').prepend(data);
+        }
+    })
 
-    }
+}
