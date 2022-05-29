@@ -11,7 +11,7 @@ $('document').ready(function () {
         message_text_element.val('');
         add_message(current_user, message);
 
-        socket.emit('message', {user_id: 8, message_text: message})
+        socket.emit('message', {user_id: chat_user, message_text: message})
     });
 
     $('#messageText').on('input', function () {
