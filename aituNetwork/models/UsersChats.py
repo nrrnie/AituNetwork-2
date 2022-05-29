@@ -1,5 +1,6 @@
 from aituNetwork.models import db
 from aituNetwork.models import Chats
+from typing import Union
 
 
 class UsersChats(db.Model):
@@ -17,3 +18,13 @@ class UsersChats(db.Model):
             return False
 
         return True
+
+    @staticmethod
+    def get_second_chat_user(chat_id: int, user_id: int) -> Union[int, None]:
+        chat = Chats.query.get(chat_id)
+
+        if chat is None:
+            return chat
+
+        chat_user = UsersChats.query.filter(UsersChats.chat_id == chat_id, UsersChats.user_id != user_id).first()
+        return chat_user if chat_user is None else chat_user.user_id

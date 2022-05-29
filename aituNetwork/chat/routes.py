@@ -9,6 +9,9 @@ from utils import auth_required
 def chat(chat_id: int):
     user = session['user']
 
+    # user with whom you chat
+    chat_user = UsersChats.get_second_chat_user(chat_id, user.id)
+
     if not Chats.is_chat_exist(chat_id):
         return 'Chat does not exist'
 
@@ -16,5 +19,5 @@ def chat(chat_id: int):
         return 'User do not have access to this chat'
 
     if request.method == 'GET':
-        return render_template('chat.html', user=user)
+        return render_template('chat.html', user=user, chat_user=chat_user)
 
