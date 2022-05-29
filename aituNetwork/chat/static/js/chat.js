@@ -1,4 +1,4 @@
-let socket = io.connect('http://127.0.0.1:5000', {query: "user_id=" + current_user});
+let socket = io.connect('http://' + window.location.host, {query: "user_id=" + current_user});
 
 socket.on('message', data => {
     add_message(data['from_user_id'], data['message'])
