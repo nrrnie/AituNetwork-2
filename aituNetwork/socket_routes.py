@@ -24,8 +24,9 @@ def disconnect():
 
 @socketio.on('message')
 def message(data: dict):
+    from_user_id = data['from_user_id']
     user_id = data['user_id']
     message_text = data['message_text']
 
     if clients.get(user_id):
-        send({'user_id': user_id, 'message': message_text}, to=clients[user_id])
+        send({'from_user_id': from_user_id, 'user_id': user_id, 'message': message_text}, to=clients[user_id])

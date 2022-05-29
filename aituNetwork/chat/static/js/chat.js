@@ -1,7 +1,7 @@
 let socket = io.connect('http://127.0.0.1:5000', {query: "user_id=" + current_user});
 
 socket.on('message', data => {
-    add_message(data['user_id'], data['message'])
+    add_message(data['from_user_id'], data['message'])
 });
 
 $('document').ready(function () {
@@ -11,7 +11,7 @@ $('document').ready(function () {
         message_text_element.val('');
         add_message(current_user, message);
 
-        socket.emit('message', {user_id: chat_user, message_text: message})
+        socket.emit('message', {from_user_id: current_user, user_id: chat_user, message_text: message})
     });
 
     $('#messageText').on('input', function () {
