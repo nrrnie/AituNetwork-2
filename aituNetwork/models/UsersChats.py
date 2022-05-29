@@ -21,7 +21,7 @@ class UsersChats(db.Model):
 
     @staticmethod
     def get_second_chat_user(chat_id: int, user_id: int) -> Union[int, None]:
-        chat = Chats.query.get(chat_id)
+        chat = Chats.get(chat_id)
 
         if chat is None:
             return chat
@@ -34,3 +34,16 @@ class UsersChats(db.Model):
         chats = UsersChats.query.filter_by(user_id=user_id).all()
 
         return chats
+
+    @staticmethod
+    def get_chat_between_users(first_user_id: int, second_user_id: int) -> Union[int, None]:
+        chat = UsersChats.query.filter(UsersChats.user_id == first_user_id, UsersChats.chat_id.in_(
+            UsersChats.query.filter_by(user_id=second_user_id).with_entities(UsersChats.chat_id).all())).first()
+
+        return chat if chat is None else chat.chat_id
+
+    @staticmethod
+    def add_user_to_chat(chat_id: int, user_id: int):
+        user_chat = UsersChats(chat_id=chat_id, user_id=user_id)
+        db.session.add(user_chat)
+        db.session.commit()
