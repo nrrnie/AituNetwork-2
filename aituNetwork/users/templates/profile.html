@@ -38,22 +38,22 @@
                                 <a class="btn btn-secondary mt-2"
                                    href="{{ url_for('users.remove_friend', user_id=user.id, friend_id=profile_user.id) }}">Cancel
                                     request</a>
-                                <a class="btn btn-primary mt-2">Message</a>
+                                <a href="{{ url_for('chat.conversation', chat_user_id=profile_user.id) }}" class="btn btn-primary mt-2">Message</a>
                                 {% elif friend_status == 2 %}
                                 <a class="btn btn-secondary mt-2"
                                    href="{{url_for('users.add_friend', user_id=user.id, friend_id=profile_user.id)}}">Accept
                                     request</a>
-                                <a class="btn btn-primary mt-2">Message</a>
+                                <a href="{{ url_for('chat.conversation', chat_user_id=profile_user.id) }}" class="btn btn-primary mt-2">Message</a>
                                 {% elif friend_status == 3 %}
                                 <a class="btn btn-secondary mt-2"
                                    href="{{ url_for('users.remove_friend', user_id=user.id, friend_id=profile_user.id) }}">Remove
                                     from friends</a>
-                                <a class="btn btn-primary mt-2">Message</a>
+                                <a href="{{ url_for('chat.conversation', chat_user_id=profile_user.id) }}" class="btn btn-primary mt-2">Message</a>
                                 {% else %}
                                 <a class="btn btn-secondary mt-2"
                                    href="{{url_for('users.add_friend', user_id=user.id, friend_id=profile_user.id)}}">Add
                                     to Friend</a>
-                                <a class="btn btn-primary mt-2">Message</a>
+                                <a href="{{ url_for('chat.conversation', chat_user_id=profile_user.id) }}" class="btn btn-primary mt-2">Message</a>
                                 {% endif %}
                             </div>
                         </div>
