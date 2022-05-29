@@ -1,0 +1,10 @@
+.hover-blackout {
+    background-color: white;
+    transition: all .4s ease;
+    -webkit-transition: all .4s ease;
+}
+
+.hover-blackout:hover {
+    background-color: #f3f3f7;
+}
+
