@@ -37,8 +37,9 @@ class UsersChats(db.Model):
 
     @staticmethod
     def get_chat_between_users(first_user_id: int, second_user_id: int) -> Union[int, None]:
-        chat = UsersChats.query.filter(UsersChats.user_id == first_user_id, UsersChats.chat_id.in_(
-            UsersChats.query.filter_by(user_id=second_user_id).with_entities(UsersChats.chat_id).all())).first()
+        second_user_id_chats = UsersChats.query.filter_by(user_id=second_user_id).with_entities(UsersChats.chat_id)
+        chat = UsersChats.query.filter(UsersChats.chat_id.in_(second_user_id_chats),
+                                       UsersChats.user_id == first_user_id).first()
 
         return chat if chat is None else chat.chat_id
 
