@@ -33,6 +33,12 @@ def create_app():
     from aituNetwork.chat import chat
     app.register_blueprint(chat, url_prefix='/chat')
 
+    from aituNetwork.template_functions import get_picture, is_user_liked, get_user
+
+    app.jinja_env.globals.update(get_picture=get_picture)
+    app.jinja_env.globals.update(is_user_liked=is_user_liked)
+    app.jinja_env.globals.update(get_user=get_user)
+
     @app.route('/')
     def main():
         return redirect(url_for('auth.login'))
