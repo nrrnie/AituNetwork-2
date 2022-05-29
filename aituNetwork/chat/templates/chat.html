@@ -17,7 +17,15 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="header sticky-top">
-                            Name: mercurial
+                            {% set picture = get_picture(chat_user.id) %}
+                            {% if picture %}
+                            <img src="{{ url_for('utils.get_picture', table='profile-pictures', filename=picture.name) }}"
+                                 class="rounded-circle me-1" width="36" height="36">
+                            {% else %}
+                            <img src="https://i.pinimg.com/originals/fc/04/73/fc047347b17f7df7ff288d78c8c281cf.png"
+                                 class="rounded-circle me-1" width="36" height="36">
+                            {% endif %}
+                            <a href="{{ url_for('users.profile', slug=chat_user.slug) }}" class="d-inline my-auto fs-5 text-dark text-decoration-none">{{ chat_user.first_name }}</a>
                             <hr>
                         </div>
 
@@ -47,7 +55,7 @@
     </div>
 
     <script>
-        let chat_user = {{ chat_user }};
+        let chat_user = {{ chat_user.id }};
     </script>
 
     <script src="static/js/chat.js"></script>

@@ -1,6 +1,6 @@
 from flask import request, session, render_template, url_for
 from aituNetwork.chat import chat
-from aituNetwork.models import Chats, UsersChats
+from aituNetwork.models import Chats, UsersChats, Users
 from utils import auth_required
 
 
@@ -10,7 +10,8 @@ def chat(chat_id: int):
     user = session['user']
 
     # user with whom you chat
-    chat_user = UsersChats.get_second_chat_user(chat_id, user.id)
+    chat_user_id = UsersChats.get_second_chat_user(chat_id, user.id)
+    chat_user = Users.get(chat_user_id)
 
     if not Chats.is_chat_exist(chat_id):
         return 'Chat does not exist'
