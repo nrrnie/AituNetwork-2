@@ -11,3 +11,11 @@ class Chats(db.Model):
     @staticmethod
     def is_chat_exist(chat_id: int) -> bool:
         return Chats.query.get(chat_id) is not None
+
+    @staticmethod
+    def create_chat() -> int:
+        chat = Chats()
+        db.session.add(chat)
+        db.session.commit()
+
+        return chat.id
