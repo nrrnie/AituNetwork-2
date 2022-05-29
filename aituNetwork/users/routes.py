@@ -66,16 +66,20 @@ def settings():
     password = request.form.get('password')
     password_confirm = request.form.get('password-confirm')
 
-    if password != password_confirm:
-        flash('Passwords does not match')
-        return redirect(url_for('users.settings'))
+    if password != '':
+        if password != password_confirm:
+            flash('Passwords does not match')
+            return redirect(url_for('users.settings'))
+        password = sha256_crypt.hash(password)
+    else:
+        password = session['user'].password
 
     if Users.is_slug_taken(slug) and slug != session['user'].slug:
         flash('Slug is already taken.', 'danger')
         return redirect(url_for('users.settings'))
 
     update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me,
-                       password=sha256_crypt.hash(password))
+                       password=password)
     Users.update_user_info(session['user'].id, update_info)
 
     session['user'] = Users.query.get(session['user'].id)
