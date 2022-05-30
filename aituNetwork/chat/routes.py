@@ -35,4 +35,4 @@ def chat(chat_id: int):
         return 'User do not have access to this chat'
 
     if request.method == 'GET':
-        return render_template('chat.html', user=user, chat_user=chat_user)
+        return render_template('chat.html', user=user, chat_user=chat_user, chat_id=chat_id)
