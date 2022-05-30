@@ -1,7 +1,8 @@
 from flask import session, request
 from flask_socketio import emit, send
 from datetime import datetime
-from aituNetwork.models import Users
+from aituNetwork.models import Users, Messages
+from aituNetwork import db
 from __main__ import socketio
 
 clients = dict()
@@ -24,9 +25,14 @@ def disconnect():
 
 @socketio.on('message')
 def message(data: dict):
+    chat_id = data['chat_id']
     from_user_id = data['from_user_id']
     user_id = data['user_id']
     message_text = data['message_text']
+
+    new_message = Messages(chat_id=chat_id, user_id=from_user_id, message=message_text)
+    db.session.add(new_message)
+    db.session.commit()
 
     if clients.get(user_id):
         send({'from_user_id': from_user_id, 'user_id': user_id, 'message': message_text}, to=clients[user_id])
