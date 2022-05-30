@@ -1,4 +1,8 @@
+let last_offset = 0
+load_messages(last_offset, 25);
+
 function load_messages(offset, limit) {
+    console.log('loading');
     $.ajax({
         url: '/utils/get-messages',
         method: 'POST',
@@ -11,8 +15,17 @@ function load_messages(offset, limit) {
         success: function (data) {
             let html = data.html;
             html.forEach(message => $('#dialogBox').append(message));
+            last_offset += html.length;
         }
     });
 }
 
-load_messages(0, 10);
+
+$('#dialogBox').scroll(function () {
+    let div = $(this).get(0);
+    let position = div.scrollTop * -1;
+
+    if(position + div.clientHeight >= div.scrollHeight) {
+        load_messages(last_offset, 25);
+    }
+});
