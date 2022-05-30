@@ -1,5 +1,5 @@
 from flask import request, send_file, render_template
-from aituNetwork.models import PostLikes, Users
+from aituNetwork.models import PostLikes, Users, Messages
 from aituNetwork.utils import utils
 from utils import picturesDB
 
@@ -36,3 +36,20 @@ def generate_message():
     message = request.form.get('message')
 
     return render_template('message.html', user=Users.get(user_id), message=message)
+
+
+@utils.route('/get-messages', methods=['POST'])
+def get_messages():
+    chat_id = int(request.form.get('chat_id'))
+    offset = int(request.form.get('offset'))
+    limit = int(request.form.get('limit'))
+    with_html = request.form.get('with_html')
+
+    messages = Messages.get_messages(chat_id, offset, limit)
+
+    html = None
+    if with_html:
+        html = [render_template('message.html', user=Users.get(message.user_id), message=message.message) for message in
+                messages]
+
+    return dict(messages=[message.serialize() for message in messages], html=html)

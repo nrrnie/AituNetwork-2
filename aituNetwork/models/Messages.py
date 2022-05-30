@@ -8,3 +8,18 @@ class Messages(db.Model):
     user_id = db.Column(db.Integer, index=True)
     message = db.Column(db.Text, nullable=False)
     created = db.Column(db.DATETIME, index=True, nullable=False, default=datetime.now)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'chat_id': self.chat_id,
+            'user_id': self.user_id,
+            'message': self.message,
+            'created': self.created.__str__()
+        }
+
+    @staticmethod
+    def get_messages(chat_id: int, offset: int, limit: int):
+        messages = Messages.query.filter_by(chat_id=chat_id).order_by(Messages.id.desc()).limit(limit).offset(offset)
+
+        return messages.all()
