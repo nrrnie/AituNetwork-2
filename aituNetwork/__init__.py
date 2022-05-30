@@ -45,6 +45,9 @@ def create_app():
     from aituNetwork.template_functions import get_second_chat_user
     app.jinja_env.globals.update(get_second_chat_user=get_second_chat_user)
 
+    from aituNetwork.template_functions import get_last_message
+    app.jinja_env.globals.update(get_last_message=get_last_message)
+
     @app.route('/')
     def main():
         return redirect(url_for('auth.login'))

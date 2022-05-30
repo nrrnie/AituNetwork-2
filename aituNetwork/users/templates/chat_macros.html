@@ -16,7 +16,7 @@
     </div>
     <div class="chat-content">
         <h5>{{ second_chat_user.first_name }} {{ second_chat_user.last_name }}</h5>
-        <span class="text-secondary">message</span>
+        <span class="text-secondary">{{ get_last_message(chat.id).message }}</span>
     </div>
 </a>
 

@@ -23,3 +23,7 @@ class Messages(db.Model):
         messages = Messages.query.filter_by(chat_id=chat_id).order_by(Messages.id.desc()).limit(limit).offset(offset)
 
         return messages.all()
+
+    @staticmethod
+    def get_last_message(chat_id: int):
+        return Messages.query.filter_by(chat_id=chat_id).order_by(Messages.id.desc()).first()
