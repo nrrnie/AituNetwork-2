@@ -1,9 +1,10 @@
+from flask_socketio import SocketIO
 from os import getenv
 
 from aituNetwork import create_app
 
-
 app = create_app()
+socketio = SocketIO(app)
 
 
 def main():
@@ -15,7 +16,9 @@ def main():
         print('Host, port or debug values was not set.')
         exit()
 
-    app.run(host=host, port=port, debug=debug)
+    import aituNetwork.socket_routes
+
+    socketio.run(app, host=host, port=port, debug=debug)
 
 
 if __name__ == '__main__':

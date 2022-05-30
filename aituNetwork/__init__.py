@@ -15,8 +15,6 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    from aituNetwork.models import Users
-
     with app.app_context():
         db.init_app(app)
         migrate.init_app(app, db)
@@ -32,6 +30,23 @@ def create_app():
     app.register_blueprint(users, url_prefix='/users')
     from aituNetwork.utils import utils
     app.register_blueprint(utils, url_prefix='/utils')
+    from aituNetwork.chat import chat
+    app.register_blueprint(chat, url_prefix='/chat')
+
+    from aituNetwork.template_functions import get_picture
+    app.jinja_env.globals.update(get_picture=get_picture)
+
+    from aituNetwork.template_functions import is_user_liked
+    app.jinja_env.globals.update(is_user_liked=is_user_liked)
+
+    from aituNetwork.template_functions import get_user
+    app.jinja_env.globals.update(get_user=get_user)
+
+    from aituNetwork.template_functions import get_second_chat_user
+    app.jinja_env.globals.update(get_second_chat_user=get_second_chat_user)
+
+    from aituNetwork.template_functions import get_last_message
+    app.jinja_env.globals.update(get_last_message=get_last_message)
 
     @app.route('/')
     def main():

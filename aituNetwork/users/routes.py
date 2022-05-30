@@ -2,7 +2,7 @@ from flask import request, render_template, session
 from flask import redirect, url_for, flash
 from passlib.hash import sha256_crypt
 from aituNetwork.users import users
-from aituNetwork.models import Users, ProfilePictures, Friends, Posts
+from aituNetwork.models import Users, ProfilePictures, Friends, Posts, UsersChats, Chats
 from aituNetwork import db
 from utils import picturesDB, auth_required
 
@@ -30,6 +30,23 @@ def profile(slug: str):
                            posts=posts, friend_list=friend_list)
 
 
+@users.route('/friends')
+@auth_required
+def friends():
+    friend_list = Friends.get_friend_list(session['user'].id)
+    return render_template('friends.html', user=session['user'], friend_list=friend_list)
+
+
+@users.route('/messages')
+@auth_required
+def messages():
+    user = session['user']
+    chats = UsersChats.get_user_chats(user.id)
+    chats = [Chats.get(chat.chat_id) for chat in chats]
+
+    return render_template('messages.html', user=user, chats=chats)
+
+
 @users.route('/settings', methods=['GET', 'POST'])
 @auth_required
 def settings():
@@ -49,29 +66,26 @@ def settings():
     password = request.form.get('password')
     password_confirm = request.form.get('password-confirm')
 
-    if password != password_confirm:
-        flash('Passwords does not match')
-        return redirect(url_for('users.settings'))
+    if password != '':
+        if password != password_confirm:
+            flash('Passwords does not match')
+            return redirect(url_for('users.settings'))
+        password = sha256_crypt.hash(password)
+    else:
+        password = session['user'].password
 
     if Users.is_slug_taken(slug) and slug != session['user'].slug:
         flash('Slug is already taken.', 'danger')
         return redirect(url_for('users.settings'))
 
     update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me,
-                       password=sha256_crypt.hash(password))
+                       password=password)
     Users.update_user_info(session['user'].id, update_info)
 
     session['user'] = Users.query.get(session['user'].id)
 
     flash('Info was updated', 'success')
     return redirect(url_for('users.settings'))
-
-
-@users.route('/friends')
-@auth_required
-def friends():
-    friend_list = Friends.get_friend_list(session['user'].id)
-    return render_template('friends.html', user=session['user'], friend_list=friend_list)
 
 
 @users.route('/add/friend')

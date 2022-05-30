@@ -1,0 +1,67 @@
+{% extends 'main.html' %}
+
+{% block title %} Messages {% endblock %}
+
+{% block links %}
+<link rel="stylesheet" href="static/css/chat.css">
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="main-body">
+        <div class="row">
+            <div class="col-lg-2">
+                {{ sidebar(user) }}
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="header sticky-top">
+                            {% set picture = get_picture(chat_user.id) %}
+                            {% if picture %}
+                            <img src="{{ url_for('utils.get_picture', table='profile-pictures', filename=picture.name) }}"
+                                 class="rounded-circle me-1" width="36" height="36">
+                            {% else %}
+                            <img src="https://i.pinimg.com/originals/fc/04/73/fc047347b17f7df7ff288d78c8c281cf.png"
+                                 class="rounded-circle me-1" width="36" height="36">
+                            {% endif %}
+                            <a href="{{ url_for('users.profile', slug=chat_user.slug) }}" class="d-inline my-auto fs-5 text-dark text-decoration-none">{{ chat_user.first_name }}</a>
+                            <hr>
+                        </div>
+
+                        <div class="dialog pb-5">
+                            <div id="dialogBox" class="d-flex flex-column-reverse scroller">
+
+                            </div>
+
+                        </div>
+                        <div class="position-relative">
+                            <form>
+                                <label>
+                                    <textarea id="messageText" class="position-absolute bottom-0 form-control"
+                                              aria-multiline="true" style="max-width: 90% !important; resize: none"
+                                              rows="1" name="message" required></textarea>
+                                </label>
+                                <button type="button" id="sendMessage"
+                                        class="btn btn-primary position-absolute bottom-0 end-0">
+                                    Send
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let chat_user = {{ chat_user.id }};
+        let chat_id = {{ chat_id }};
+    </script>
+
+    <script src="static/js/chat.js"></script>
+    <script src="static/js/chat_loader.js"></script>
+
+
+</div>
+{% endblock %}

@@ -34,7 +34,7 @@
                                 <div class="friend-info">
                                     <a href="{{ url_for('users.profile', slug=friend.slug) }}" class="d-block text-decoration-none text-black fs-4 text mb-4" role="button">{{
                                         friend.first_name }} {{ friend.last_name }}</a>
-                                    <a class="btn btn-sm btn-primary mt-2">Message</a>
+                                    <a href="{{ url_for('chat.conversation', chat_user_id=friend.id) }}" class="btn btn-sm btn-primary mt-2">Message</a>
                                 </div>
                             </div>
                         </div>

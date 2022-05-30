@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+{% from 'chat_macros.html' import chat_block with context %}
+
+{% block links %}
+<link rel="stylesheet" href="static/css/messages.css">
+{% endblock %}
+
+{% block title %} Messages {% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="main-body">
+        <div class="row">
+            <div class="col-lg-2">
+                {{ sidebar(user) }}
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Messages</h3>
+                        <hr class="my-3">
+
+                        {% if chats|length == 0 %}
+                        <h4 class="text-center">You don't have any chats yet. Start a new one!</h4>
+                        <div class="d-grid col-3 mx-auto mt-3">
+                            <a href="{{ url_for('users.friends') }}" class="btn btn-primary">Friends</a>
+                        </div>
+                        {% endif %}
+
+                        {% for chat in chats %}
+                            {{ chat_block(chat, user.id) }}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

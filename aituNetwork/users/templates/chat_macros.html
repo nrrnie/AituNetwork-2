@@ -1,0 +1,23 @@
+{% macro chat_block(chat, user_id) %}
+{% set second_chat_user_id = get_second_chat_user(chat.id, user_id) %}
+{% set second_chat_user = get_user(second_chat_user_id) %}
+
+{% set picture = get_picture(second_chat_user.id) %}
+
+<a href="{{ url_for('chat.chat', chat_id=chat.id) }}" class="chat-block d-flex text-dark text-decoration-none hover-blackout p-2" role="button">
+    <div class="picture me-3">
+        {% if picture %}
+        <img src="{{ url_for('utils.get_picture', table='profile-pictures', filename=picture.name) }}"
+             class="rounded-circle" width="64" height="64">
+        {% else %}
+        <img src="https://i.pinimg.com/originals/fc/04/73/fc047347b17f7df7ff288d78c8c281cf.png" class="rounded-circle"
+             width="64" height="64">
+        {% endif %}
+    </div>
+    <div class="chat-content">
+        <h5>{{ second_chat_user.first_name }} {{ second_chat_user.last_name }}</h5>
+        <span class="text-secondary">{{ get_last_message(chat.id).message }}</span>
+    </div>
+</a>
+
+{% endmacro %}
