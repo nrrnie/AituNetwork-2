@@ -10,6 +10,7 @@ class Users(db.Model):
     first_name = db.Column(db.String(255), nullable=False)
     last_name = db.Column(db.String(255), nullable=False)
     about_me = db.Column(db.String(255), nullable=False, default='Hi there! I\'m using AITU Network!')
+    birthday = db.Column(db.DATETIME, nullable=True, index=True)
     password = db.Column(db.String(255), nullable=False)
     registered = db.Column(db.DATETIME, nullable=False, default=datetime.now)
     is_activated = db.Column(db.Boolean, nullable=False, default=False)
