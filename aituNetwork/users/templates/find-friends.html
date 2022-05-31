@@ -1,0 +1,71 @@
+{% extends 'main.html' %}
+
+{% block title %} Find people {% endblock %}
+
+
+{% block body %}
+<div class="container mt-5">
+    <div class="main-body">
+        <div class="row">
+            <div class="col-lg-2">
+                {{ sidebar(user) }}
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="header d-flex justify-content-between">
+                            <h3>Search for friends</h3>
+                        </div>
+                        <hr class="my-3">
+                        <form>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Barcode, name"
+                                       aria-label="Username">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="card p-3">
+                    <form>
+                        <div class="card-body p-0">
+                            <div class="input-group-sm mb-3">
+                                <label for="city" class="mb-1">City</label>
+                                <select class="form-select" id="city">
+                                    <option selected>Choose...</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                            <div class="input-group-sm mb-3">
+                                <label for="course">Course</label>
+                                <select class="form-select" id="course">
+                                    <option selected>Choose...</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                            <div class="input-group-sm mb-3">
+                                <label for="discipline">Discipline</label>
+                                <select class="form-select" id="discipline">
+                                    <option selected>Choose...</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button class="btn btn-sm btn-primary" type="submit">Filter</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

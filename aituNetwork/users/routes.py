@@ -119,3 +119,9 @@ def add_post():
 
     flash('Your post is added!', 'success')
     return redirect(url_for('users.profile', slug=session['user'].slug))
+
+
+@users.route('/find-friends')
+@auth_required
+def find_friends():
+    return render_template('find-friends.html', user=session['user'])

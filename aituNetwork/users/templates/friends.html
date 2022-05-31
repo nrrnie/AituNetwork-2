@@ -12,7 +12,10 @@
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-body">
-                        <h3>Friends</h3>
+                        <div class="header d-flex justify-content-between">
+                            <h3>Friends</h3>
+                            <a href="{{ url_for('users.find_friends') }}" class="text-secondary text-decoration-none" role="button">Find friends</a>
+                        </div>
                         <hr class="my-3">
 
                         {% if friend_list|length == 0 %}
@@ -32,9 +35,11 @@
                                      class="me-3" width="110" height="110">
                                 {% endif %}
                                 <div class="friend-info">
-                                    <a href="{{ url_for('users.profile', slug=friend.slug) }}" class="d-block text-decoration-none text-black fs-4 text mb-4" role="button">{{
+                                    <a href="{{ url_for('users.profile', slug=friend.slug) }}"
+                                       class="d-block text-decoration-none text-black fs-4 text mb-4" role="button">{{
                                         friend.first_name }} {{ friend.last_name }}</a>
-                                    <a href="{{ url_for('chat.conversation', chat_user_id=friend.id) }}" class="btn btn-sm btn-primary mt-2">Message</a>
+                                    <a href="{{ url_for('chat.conversation', chat_user_id=friend.id) }}"
+                                       class="btn btn-sm btn-primary mt-2">Message</a>
                                 </div>
                             </div>
                         </div>
