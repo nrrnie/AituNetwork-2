@@ -21,13 +21,18 @@ class Friends(db.Model):
             db.session.commit()
 
     @staticmethod
-    def get_friend_list(user_id: int):
-        return Friends.query.filter(
+    def get_friend_list(user_id: int, only_query: bool = False):
+        query = Friends.query.filter(
             Friends.user_id.in_(
                 Friends.query.filter_by(user_id=user_id).with_entities(Friends.friend_id)
             ),
             Friends.friend_id == user_id
-        ).all()
+        )
+
+        if only_query:
+            return query
+
+        return query.all()
 
     @staticmethod
     def get_friend_status(user_id: int, friend_id: int) -> int:
