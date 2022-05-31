@@ -1,3 +1,5 @@
+import re
+
 from flask import request, render_template, session
 from flask import redirect, url_for, flash
 from passlib.hash import sha256_crypt
@@ -137,14 +139,28 @@ def add_post():
 def find_friends():
     user = session['user']
 
-    users_list = Users.get_users_for_new_friends_list(user.id)
     search = request.values.get('search', '')
+    city = int(request.values.get('city', 0))
+    course = int(request.values.get('course', 0))
+    edu_program = int(request.values.get('edu_program', 0))
 
+    users_list = Users.get_users_for_new_friends_list(user.id)
     if search != '':
         users_list = users_list.filter(
             Users.first_name.like('%' + search + '%') | Users.last_name.like('%' + search + '%') | (
                     Users.barcode == search))
+    if city != '' and city != 0:
+        users_list = users_list.filter_by(city=city)
+    if course != '' and course != 0:
+        users_list = users_list.filter_by(course=course)
+    if edu_program != '' and edu_program != 0:
+        users_list = users_list.filter_by(edu_program=edu_program)
 
     users_list = users_list.paginate(1, 10)
 
-    return render_template('find-friends.html', user=user, users=users_list, search=search)
+    cities = Cities.get_cities()
+    edu_programs = EduPrograms.get_edu_programs()
+
+    return render_template('find-friends.html', user=user, users=users_list, search=search, cities=cities,
+                           edu_programs=edu_programs, selected_city=city, selected_course=course,
+                           selected_edu_program=edu_program)
