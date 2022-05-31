@@ -62,11 +62,10 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="edu-program-input">Educational program</label>
-                                <select class="form-select" id="edu-program-input">
-                                    <option selected>Choose...</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                <select class="form-select" id="edu-program-input" name="edu-program">
+                                    {% for program in edu_programs %}
+                                        <option value="{{ program.id }}" {% if user.edu_program == program.id %} selected {% endif %}>{{ program.name }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="mb-3">

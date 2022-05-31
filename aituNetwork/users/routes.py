@@ -2,7 +2,7 @@ from flask import request, render_template, session
 from flask import redirect, url_for, flash
 from passlib.hash import sha256_crypt
 from aituNetwork.users import users
-from aituNetwork.models import Users, ProfilePictures, Friends, Posts, UsersChats, Chats, Cities
+from aituNetwork.models import Users, ProfilePictures, Friends, Posts, UsersChats, Chats, Cities, EduPrograms
 from aituNetwork import db
 from utils import picturesDB, auth_required
 
@@ -51,10 +51,11 @@ def messages():
 @auth_required
 def settings():
     user = session['user']
+    edu_programs = EduPrograms.get_edu_programs()
     cities = Cities.get_cities()
 
     if request.method == 'GET':
-        return render_template('settings.html', user=user, cities=cities)
+        return render_template('settings.html', user=user, cities=cities, edu_programs=edu_programs)
 
     picture = request.files.get('profile-picture')
     if picture:
@@ -70,6 +71,7 @@ def settings():
     birthday = None if birthday == '' else birthday
     city = request.form.get('city')
     course = request.form.get('course')
+    edu_program = request.form.get('edu-program')
     password = request.form.get('password')
     password_confirm = request.form.get('password-confirm')
 
@@ -87,8 +89,8 @@ def settings():
         flash('Slug is already taken.', 'danger')
         return redirect(url_for('users.settings'))
 
-    update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me, birthday=birthday, city=city, course=course,
-                       password=password)
+    update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me, birthday=birthday,
+                       city=city, course=course, edu_program=edu_program, password=password)
     Users.update_user_info(user.id, update_info)
 
     session['user'] = Users.query.get(user.id)
@@ -141,7 +143,7 @@ def find_friends():
     if search != '':
         users_list = users_list.filter(
             Users.first_name.like('%' + search + '%') | Users.last_name.like('%' + search + '%') | (
-                        Users.barcode == search))
+                    Users.barcode == search))
 
     users_list = users_list.paginate(1, 10)
 
