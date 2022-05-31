@@ -40,6 +40,20 @@
                                 <input type="text" class="form-control" id="about-me-input" name="about-me"
                                        value="{{ user.about_me }}" required>
                             </div>
+							<div class="mb-3">
+								<label for="birthday-input" class="form-label">Birthday</label>
+								<input type="date" id="birthday" name="birthday" value="{{ today }}" min="1980-01-01" max="{{ today }}">
+							</div>
+                            <div class="mb-3">
+                                <label for="education-input" class="form-label">Education</label>
+                                <input type="text" class="form-control" id="education-input" name="education"
+                                       value="{{ user.education }}">
+                            </div>
+							<div>
+								<label for="hobbies-input" class="form-label">Hobbies</label>
+								<input type="text" class="form-control" id="hobbies-input" name="hobbies"
+									   value="{{ user.hobbies }}">
+							</div>
                             <div class="mb-3">
                                 <label for="password-input" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password-input" minlength="8" name="password">

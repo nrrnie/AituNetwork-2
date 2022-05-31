@@ -70,7 +70,7 @@ def register():
 
         if user is None:
             hashed_password = sha256_crypt.hash(password)
-            user = Users(barcode=barcode, first_name=first_name, last_name=last_name, password=hashed_password)
+            user = Users(barcode=barcode, first_name=first_name, last_name=last_name, password=hashed_password, is_activated=True)
             db.session.add(user)
             db.session.commit()
 
@@ -80,7 +80,7 @@ def register():
             email = barcode + '@astanait.edu.kz'
             header = 'Email verification'
             message = 'Your verification link is %s'
-            send_email(email, token_link, header, message)
+            #send_email(email, token_link, header, message)
 
             flash('User was successfully created!', 'success')
             return redirect(url_for('auth.login'))

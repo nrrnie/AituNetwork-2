@@ -61,6 +61,41 @@
                         <p class="text-center text-secondary mb-2 p-2">
                             {{ profile_user.about_me }}
                         </p>
+						
+						<div align="center">
+							{% if profile_user.birthday|length %}
+							<div>
+								<span class="add-info-name">
+									Birthday:
+								</span>
+								<span class="text-center text-secondary mb-2 p-2">
+									{{ profile_user.birthday }}
+								</span
+							</div>
+							{% endif %}
+							
+							{% if profile_user.education|length %}
+							<div>
+								<span class="add-info-name">
+									Education:
+								</span>
+								<span class="text-center text-secondary mb-2 p-2">
+									{{ profile_user.education }}
+								</span>
+							</div>
+							{% endif %}
+							
+							{% if profile_user.hobbies|length %}
+							<div>
+								<span class="add-info-name">
+									Hobbies:
+								</span>
+								<span class="text-center text-secondary mb-2 p-2">
+									{{ profile_user.hobbies }}
+								</span>
+							</div>
+							{% endif %}
+						</div>
                     </div>
                 </div>
                 <div class="card mb-5">

@@ -5,7 +5,7 @@ from aituNetwork.users import users
 from aituNetwork.models import Users, ProfilePictures, Friends, Posts, UsersChats, Chats
 from aituNetwork import db
 from utils import picturesDB, auth_required
-
+from datetime import date
 
 @users.route('/profile/<slug>', methods=['GET'])
 @auth_required
@@ -51,7 +51,7 @@ def messages():
 @auth_required
 def settings():
     if request.method == 'GET':
-        return render_template('settings.html', user=session['user'])
+        return render_template('settings.html', user=session['user'], today=date.today().isoformat())
 
     picture = request.files.get('profile-picture')
     if picture:
@@ -63,6 +63,9 @@ def settings():
     first_name = request.form.get('first-name')
     last_name = request.form.get('last-name')
     about_me = request.form.get('about-me')
+    birthday_raw = request.form.get('birthday')
+    education = request.form.get('education')
+    hobbies = request.form.get('hobbies')
     password = request.form.get('password')
     password_confirm = request.form.get('password-confirm')
 
@@ -77,9 +80,28 @@ def settings():
     if Users.is_slug_taken(slug) and slug != session['user'].slug:
         flash('Slug is already taken.', 'danger')
         return redirect(url_for('users.settings'))
+        
 
+    months = {
+        '01':   'January',
+        '02':   'February',
+        '03':   'March',
+        '04':   'April',
+        '05':   'May',
+        '06':   'June',
+        '07':   'July',
+        '08':   'August',
+        '09':   'September',
+        '10':   'October',
+        '11':   'November',
+        '12':   'December'
+    }
+    
+    birthday_raw = birthday_raw.split('-')
+    birthday = months[birthday_raw[1]] + ' ' + birthday_raw[2] + ' ' + birthday_raw[0]
+    
     update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me,
-                       password=password)
+                       password=password, education=education, hobbies=hobbies, birthday=birthday)
     Users.update_user_info(session['user'].id, update_info)
 
     session['user'] = Users.query.get(session['user'].id)
