@@ -32,7 +32,7 @@ def profile(slug: str):
     if birthday_raw[2][0] == '0':
         birthday = months[birthday_raw[1]] + ' ' + birthday_raw[2][1] + ' ' + birthday_raw[0]
     else:
-        birthday = models[birthday_raw[1]] + ' ' + birthday_raw[2] + ' ' + birthday_raw[0]
+        birthday = months[birthday_raw[1]] + ' ' + birthday_raw[2] + ' ' + birthday_raw[0]
 
     if profile_user is None:
         return 'user is not found'
