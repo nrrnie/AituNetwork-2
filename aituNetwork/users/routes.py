@@ -121,11 +121,19 @@ def add_post():
     return redirect(url_for('users.profile', slug=session['user'].slug))
 
 
-@users.route('/find-friends', methods=['GET', 'POST'])
+@users.route('/find-friends')
 @auth_required
 def find_friends():
     user = session['user']
 
-    if request.method == 'GET':
-        users_list = Users.get_users_for_new_friends_list(user.id, 1, 10)
-        return render_template('find-friends.html', user=user, users=users_list)
+    users_list = Users.get_users_for_new_friends_list(user.id)
+    search = request.values.get('search', '')
+
+    if search != '':
+        users_list = users_list.filter(
+            Users.first_name.like('%' + search + '%') | Users.last_name.like('%' + search + '%') | (
+                        Users.barcode == search))
+
+    users_list = users_list.paginate(1, 10)
+
+    return render_template('find-friends.html', user=user, users=users_list, search=search)

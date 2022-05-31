@@ -18,10 +18,10 @@
                             <h3>Search for friends</h3>
                         </div>
                         <hr class="my-3">
-                        <form>
+                        <form method="get">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="Barcode, name"
-                                       aria-label="Username">
+                                       aria-label="Username" name="search" value="{% if search %}{{ search }}{% endif %}">
                             </div>
                         </form>
                     </div>
@@ -33,15 +33,19 @@
                         <h4 class="text-center">No result</h4>
                         {% endif %}
 
-                        {% for user in users.items %}
-                        {{ user_macro(user, True) }}
+                        {% for user_i in users.items %}
+                        {% if is_friend(user.id, user_i.id) %}
+                        {{ user_macro(user_i, False) }}
+                        {% else %}
+                        {{ user_macro(user_i, True) }}
+                        {% endif %}
                         {% endfor %}
                     </div>
                 </div>
             </div>
             <div class="col-lg-2">
                 <div class="card p-3">
-                    <form>
+                    <form method="get">
                         <div class="card-body p-0">
                             <div class="input-group-sm mb-3">
                                 <label for="city" class="mb-1">City</label>
