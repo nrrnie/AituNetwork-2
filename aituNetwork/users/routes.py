@@ -12,6 +12,28 @@ from datetime import date
 def profile(slug: str):
     profile_user = Users.query.filter_by(slug=slug).first()
 
+    months = {
+        '01':   'January',
+        '02':   'February',
+        '03':   'March',
+        '04':   'April',
+        '05':   'May',
+        '06':   'June',
+        '07':   'July',
+        '08':   'August',
+        '09':   'September',
+        '10':   'October',
+        '11':   'November',
+        '12':   'December'
+    }
+    
+    birthday_raw = profile_user.birthday.split('-')
+    
+    if birthday_raw[2][0] == '0':
+        birthday = months[birthday_raw[1]] + ' ' + birthday_raw[2][1] + ' ' + birthday_raw[0]
+    else:
+        birthday = models[birthday_raw[1]] + ' ' + birthday_raw[2] + ' ' + birthday_raw[0]
+
     if profile_user is None:
         return 'user is not found'
 
@@ -27,7 +49,7 @@ def profile(slug: str):
     friend_list = Friends.get_friend_list(profile_user.id)[:6]
 
     return render_template('profile.html', user=user, profile_user=profile_user, friend_status=friend_status,
-                           posts=posts, friend_list=friend_list)
+                           posts=posts, friend_list=friend_list, birthday=birthday)
 
 
 @users.route('/friends')
@@ -66,9 +88,17 @@ def settings():
     birthday_raw = request.form.get('birthday')
     education = request.form.get('education')
     hobbies = request.form.get('hobbies')
+    year = request.form.get('year')
+    program = request.form.get('program')
+    city = request.form.get('city')
+    group = request.form.get('group')
     password = request.form.get('password')
     password_confirm = request.form.get('password-confirm')
 
+    if '-' in group or ' ' in group:
+        flash('Group name is inputted incorrectly', 'danger')
+        return redirect(url_for('users.settings'))
+        
     if password != '':
         if password != password_confirm:
             flash('Passwords does not match')
@@ -82,26 +112,9 @@ def settings():
         return redirect(url_for('users.settings'))
         
 
-    months = {
-        '01':   'January',
-        '02':   'February',
-        '03':   'March',
-        '04':   'April',
-        '05':   'May',
-        '06':   'June',
-        '07':   'July',
-        '08':   'August',
-        '09':   'September',
-        '10':   'October',
-        '11':   'November',
-        '12':   'December'
-    }
-    
-    birthday_raw = birthday_raw.split('-')
-    birthday = months[birthday_raw[1]] + ' ' + birthday_raw[2] + ' ' + birthday_raw[0]
     
     update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me,
-                       password=password, education=education, hobbies=hobbies, birthday=birthday)
+                       password=password, education=education, hobbies=hobbies, birthday=birthday_raw, city=city, group=group, program=program)
     Users.update_user_info(session['user'].id, update_info)
 
     session['user'] = Users.query.get(session['user'].id)

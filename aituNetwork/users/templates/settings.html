@@ -42,8 +42,44 @@
                             </div>
 							<div class="mb-3">
 								<label for="birthday-input" class="form-label">Birthday</label>
-								<input type="date" id="birthday" name="birthday" value="{{ today }}" min="1980-01-01" max="{{ today }}">
+								{% if user.birthday != today %}
+									<input type="date" id="birthday" name="birthday" value="{{ user.birthday }}" min="1980-01-01" max="{{ today }}" required>
+								{% else %}
+									<input type="date" id="birthday" name="birthday" value="{{ today }}" min="1980-01-01" max="{{ today }}" required>
+								{% endif %}
 							</div>
+							<div class="mb-3">
+                                <label for="city-input" class="form-label">City</label>
+                                <input type="text" class="form-control" id="city-input" name="city"
+                                       value="{{ user.city }}" required>
+                            </div>
+							
+							<div class="input-group mb-3">
+							  <div class="input-group-prepend">
+								<span class="input-group-text" id="program-input">Educational Program</span>
+                                <input class="form-control" id="program-input" name="program" list="programs"
+                                       value="{{ user.program }}" required>
+								<datalist id="programs">
+									<option value="IT">Computer Science</option>
+									<option value="SE">Software Engineering</option>
+									<option value="CS">Cyber Security</option>
+									<option value="BDA">Big Data Analysis</option>
+									<option value="MT">Media Technologies</option>
+									<option value="ST">Smart Technologies</option>
+									<option value="ITE">IT Entrepreneurship</option>
+									<option value="ITM">IT Management</option>
+									<option value="DJ">Digital Journalism</option>
+									<option value="IA">Industrial Automation</option>
+								</datalist>
+							  </div>
+								<div class="col-xs-2">
+									<span class="input-group-text" id="group-input">Group</span> 
+									<input type="text" class="form-control" id="group-input" name="group" value="{{ user.group }}">
+								</div>
+								<span class="help-block">Choose a program and input your group number. For example: Computer Science
+								</span>
+							</div>	
+							
                             <div class="mb-3">
                                 <label for="education-input" class="form-label">Education</label>
                                 <input type="text" class="form-control" id="education-input" name="education"

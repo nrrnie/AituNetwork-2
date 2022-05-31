@@ -69,11 +69,24 @@
 									Birthday:
 								</span>
 								<span class="text-center text-secondary mb-2 p-2">
-									{{ profile_user.birthday }}
-								</span
+									{{ birthday }}
+								</span>
 							</div>
 							{% endif %}
 							
+							<span class="add-info-name">
+								City:
+							</span>
+							<span class="text-center text-secondary mb-2 p-2">
+								{{ profile_user.city }}
+							</span>
+							
+							<span class="add-info-name"> 
+								Group:
+							</span>
+							<span class="text-center text-secondary mb-2 p-2">
+								{{ profile_user.program + '-' + profile_user.group }}
+							</span>
 							{% if profile_user.education|length %}
 							<div>
 								<span class="add-info-name">
