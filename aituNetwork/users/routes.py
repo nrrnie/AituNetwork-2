@@ -7,7 +7,7 @@ from aituNetwork import db
 from utils import picturesDB, auth_required
 
 
-@users.route('/<slug>', methods=['GET'])
+@users.route('/profile/<slug>', methods=['GET'])
 @auth_required
 def profile(slug: str):
     profile_user = Users.query.filter_by(slug=slug).first()
