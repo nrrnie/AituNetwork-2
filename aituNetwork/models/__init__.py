@@ -7,3 +7,4 @@ from aituNetwork.models.ProfilePictures import ProfilePictures
 from aituNetwork.models.Chats import Chats
 from aituNetwork.models.Messages import Messages
 from aituNetwork.models.UsersChats import UsersChats
+from aituNetwork.models.Cities import Cities
