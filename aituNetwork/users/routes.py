@@ -50,19 +50,22 @@ def messages():
 @users.route('/settings', methods=['GET', 'POST'])
 @auth_required
 def settings():
+    user = session['user']
+
     if request.method == 'GET':
-        return render_template('settings.html', user=session['user'])
+        return render_template('settings.html', user=user)
 
     picture = request.files.get('profile-picture')
     if picture:
         picture_name = picturesDB.add_picture('profile-pictures', picture)
-        profile_picture = ProfilePictures(user_id=session['user'].id, name=picture_name)
+        profile_picture = ProfilePictures(user_id=user.id, name=picture_name)
         db.session.add(profile_picture)
 
     slug = request.form.get('slug')
     first_name = request.form.get('first-name')
     last_name = request.form.get('last-name')
     about_me = request.form.get('about-me')
+    birthday = request.form.get('birthday')
     password = request.form.get('password')
     password_confirm = request.form.get('password-confirm')
 
@@ -72,17 +75,17 @@ def settings():
             return redirect(url_for('users.settings'))
         password = sha256_crypt.hash(password)
     else:
-        password = session['user'].password
+        password = user.password
 
-    if Users.is_slug_taken(slug) and slug != session['user'].slug:
+    if Users.is_slug_taken(slug) and slug != user.slug:
         flash('Slug is already taken.', 'danger')
         return redirect(url_for('users.settings'))
 
-    update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me,
+    update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me, birthday=birthday,
                        password=password)
-    Users.update_user_info(session['user'].id, update_info)
+    Users.update_user_info(user.id, update_info)
 
-    session['user'] = Users.query.get(session['user'].id)
+    session['user'] = Users.query.get(user.id)
 
     flash('Info was updated', 'success')
     return redirect(url_for('users.settings'))
