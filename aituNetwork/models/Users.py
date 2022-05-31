@@ -9,6 +9,8 @@ class Users(db.Model):
     barcode = db.Column(db.Integer, nullable=False, unique=True)
     first_name = db.Column(db.String(255), nullable=False)
     last_name = db.Column(db.String(255), nullable=False)
+    about_me = db.Column(db.String(255), nullable=False, default='Hi there! I\'m using AITU Network!')
+    birthday = db.Column(db.String(255), nullable=True)
     education = db.Column(db.String(255), nullable=True)
     hobbies = db.Column(db.String(255), nullable=True)
     password = db.Column(db.String(255), nullable=False)
