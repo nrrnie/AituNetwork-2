@@ -41,12 +41,45 @@
                                        value="{{ user.about_me }}" required>
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="birthday-input">Birthday</label>
+                                <input class="form-control" type="date" id="birthday-input">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="city-input">City</label>
+                                <select class="form-select" id="city-input">
+                                    <option selected>Choose...</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="course-input">Course</label>
+                                <select class="form-select" id="course-input">
+                                    <option selected>Choose...</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="edu-program-input">Educational program</label>
+                                <select class="form-select" id="edu-program-input">
+                                    <option selected>Choose...</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
                                 <label for="password-input" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password-input" minlength="8" name="password">
+                                <input type="password" class="form-control" id="password-input" minlength="8"
+                                       name="password">
                             </div>
                             <div class="mb-3">
                                 <label for="password-confirm-input" class="form-label">Confirm password</label>
-                                <input type="password" class="form-control" id="password-confirm-input" minlength="8" name="password-confirm">
+                                <input type="password" class="form-control" id="password-confirm-input" minlength="8"
+                                       name="password-confirm">
                             </div>
 
                             <div class="d-grid">
