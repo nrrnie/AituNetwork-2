@@ -1,4 +1,4 @@
-from aituNetwork.models import Users, ProfilePictures, PostLikes, UsersChats, Messages
+from aituNetwork.models import Users, ProfilePictures, PostLikes, UsersChats, Messages, Friends
 
 
 def get_user(user_id: int):
@@ -21,3 +21,7 @@ def get_second_chat_user(chat_id: int, user_id: int):
 
 def get_last_message(chat_id: int):
     return Messages.get_last_message(chat_id)
+
+
+def is_friend(user_id: int, friend_id: int):
+    return Friends.is_friend(user_id, friend_id)

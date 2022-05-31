@@ -48,6 +48,9 @@ def create_app():
     from aituNetwork.template_functions import get_last_message
     app.jinja_env.globals.update(get_last_message=get_last_message)
 
+    from aituNetwork.template_functions import is_friend
+    app.jinja_env.globals.update(is_friend=is_friend)
+
     @app.route('/')
     def main():
         return redirect(url_for('auth.login'))

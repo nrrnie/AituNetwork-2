@@ -53,3 +53,7 @@ class Friends(db.Model):
             friend_status = 2
 
         return friend_status
+
+    @staticmethod
+    def is_friend(user_id: int, friend_id: int):
+        return Friends.query.filter_by(user_id=user_id, friend_id=friend_id).first() is not None
