@@ -29,6 +29,10 @@
 
                 <div class="card">
                     <div class="card-body">
+                        {% if users.items|length == 0 %}
+                        <h4 class="text-center">No result</h4>
+                        {% endif %}
+
                         {% for user in users.items %}
                         {{ user_macro(user) }}
                         {% endfor %}
