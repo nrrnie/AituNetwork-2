@@ -69,6 +69,7 @@ def settings():
     birthday = request.form.get('birthday', None)
     birthday = None if birthday == '' else birthday
     city = request.form.get('city')
+    course = request.form.get('course')
     password = request.form.get('password')
     password_confirm = request.form.get('password-confirm')
 
@@ -86,7 +87,7 @@ def settings():
         flash('Slug is already taken.', 'danger')
         return redirect(url_for('users.settings'))
 
-    update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me, birthday=birthday, city=city,
+    update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me, birthday=birthday, city=city, course=course,
                        password=password)
     Users.update_user_info(user.id, update_info)
 
