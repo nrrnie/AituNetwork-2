@@ -1,4 +1,5 @@
 {% extends 'main.html' %}
+{% from 'user-macros.html' import user_macro with context %}
 
 {% block title %} Find people {% endblock %}
 
@@ -11,7 +12,7 @@
                 {{ sidebar(user) }}
             </div>
             <div class="col-lg-8">
-                <div class="card">
+                <div class="card mb-5   ">
                     <div class="card-body">
                         <div class="header d-flex justify-content-between">
                             <h3>Search for friends</h3>
@@ -23,6 +24,14 @@
                                        aria-label="Username">
                             </div>
                         </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        {% for user in users.items %}
+                        {{ user_macro(user) }}
+                        {% endfor %}
                     </div>
                 </div>
             </div>

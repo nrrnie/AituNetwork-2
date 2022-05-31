@@ -121,7 +121,11 @@ def add_post():
     return redirect(url_for('users.profile', slug=session['user'].slug))
 
 
-@users.route('/find-friends')
+@users.route('/find-friends', methods=['GET', 'POST'])
 @auth_required
 def find_friends():
-    return render_template('find-friends.html', user=session['user'])
+    user = session['user']
+
+    if request.method == 'GET':
+        users_list = Users.get_users_for_new_friends_list(user.id, 1, 10)
+        return render_template('find-friends.html', user=user, users=users_list)

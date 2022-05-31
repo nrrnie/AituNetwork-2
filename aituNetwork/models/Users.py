@@ -1,4 +1,4 @@
-from aituNetwork.models import db
+from aituNetwork.models import db, Friends
 from datetime import datetime
 from utils import random_id
 
@@ -33,5 +33,7 @@ class Users(db.Model):
         Users.query.filter_by(barcode=barcode).update(update_info)
         db.session.commit()
 
-
-
+    @staticmethod
+    def get_users_for_new_friends_list(user_id: int, offset: int, limit: int):
+        friends = Friends.get_friend_list(user_id, only_query=True).with_entities(Friends.user_id)
+        return Users.query.filter(Users.is_activated == 1, ~Users.id.in_(friends), Users.id != user_id).paginate(offset, limit, False)
