@@ -1,6 +1,6 @@
-{% macro user_macro(friend) %}
+{% macro user_macro(friend, with_friends_button) %}
 <div class="row mb-3">
-    <div class="col-lg-8 d-flex">
+    <div class="col-lg-8 d-flex flex-row w-100">
         {% set picture = get_picture(friend.id) %}
         {% if picture %}
         <img src="{{ url_for('utils.get_picture', filename=picture.name) }}"
@@ -9,12 +9,19 @@
         <img src="https://i.pinimg.com/originals/fc/04/73/fc047347b17f7df7ff288d78c8c281cf.png"
              class="me-3" width="110" height="110">
         {% endif %}
-        <div class="friend-info">
+
+        <div class="user-info d-flex flex-column">
             <a href="{{ url_for('users.profile', slug=friend.slug) }}"
-               class="d-block text-decoration-none text-black fs-4 text mb-4" role="button">{{
+               class="d-inline text-decoration-none text-black fs-4 text" role="button">{{
                 friend.first_name }} {{ friend.last_name }}</a>
-            <a href="{{ url_for('chat.conversation', chat_user_id=friend.id) }}"
-               class="btn btn-sm btn-primary mt-2">Message</a>
+
+            <div class="d-flex align-items-end buttons h-100">
+                {% if with_friends_button %}
+                <a href="" class="btn btn-sm btn-primary me-2">Add to friend</a>
+                {% endif %}
+                <a href="{{ url_for('chat.conversation', chat_user_id=friend.id) }}"
+                   class="btn btn-sm btn-primary">Message</a>
+            </div>
         </div>
     </div>
 </div>
