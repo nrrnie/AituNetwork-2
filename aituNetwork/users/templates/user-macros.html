@@ -17,7 +17,7 @@
 
             <div class="d-flex align-items-end buttons h-100">
                 {% if with_friends_button %}
-                <a href="" class="btn btn-sm btn-primary me-2">Add to friend</a>
+                <a href="{{ url_for('users.add_friend', user_id=user.id, friend_id=friend.id) }}" class="btn btn-sm btn-primary me-2">Add to friend</a>
                 {% endif %}
                 <a href="{{ url_for('chat.conversation', chat_user_id=friend.id) }}"
                    class="btn btn-sm btn-primary">Message</a>
