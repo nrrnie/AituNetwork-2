@@ -10,7 +10,7 @@ class Users(db.Model):
     first_name = db.Column(db.String(255), nullable=False)
     last_name = db.Column(db.String(255), nullable=False)
     about_me = db.Column(db.String(255), nullable=False, default='Hi there! I\'m using AITU Network!')
-    birthday = db.Column(db.DATETIME, nullable=True, index=True)
+    birthday = db.Column(db.DATE, nullable=True, index=True)
     city = db.Column(db.Integer, nullable=True, index=True)
     course = db.Column(db.Integer, nullable=True, index=True)
     edu_program = db.Column(db.Integer, nullable=True, index=True)
