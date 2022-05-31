@@ -28,7 +28,7 @@
                             {% endif %}
                             <div class="mt-3">
                                 <h4>{{ profile_user['first_name'] }} {{ profile_user['last_name'] }}</h4>
-                                <h6>{{ profile_user.last_online }}</h6>
+                                <h6>{{ last_online }}</h6>
 
 
                                 {% if user.id == profile_user.id %}
@@ -61,6 +61,54 @@
                         <p class="text-center text-secondary mb-2 p-2">
                             {{ profile_user.about_me }}
                         </p>
+						
+						<div align="center">
+							{% if profile_user.birthday|length %}
+							<div>
+								<span class="add-info-name">
+									Birthday:
+								</span>
+								<span class="text-center text-secondary mb-2 p-2">
+									{{ birthday }}
+								</span>
+							</div>
+							{% endif %}
+							
+							<span class="add-info-name">
+								City:
+							</span>
+							<span class="text-center text-secondary mb-2 p-2">
+								{{ profile_user.city }}
+							</span>
+							
+							<span class="add-info-name"> 
+								Group:
+							</span>
+							<span class="text-center text-secondary mb-2 p-2">
+								{{ profile_user.program + '-' + profile_user.group + ' (Year {})'.format(profile_user.year) }}
+							</span>
+							{% if profile_user.education|length %}
+							<div>
+								<span class="add-info-name">
+									Education:
+								</span>
+								<span class="text-center text-secondary mb-2 p-2">
+									{{ profile_user.education }}
+								</span>
+							</div>
+							{% endif %}
+							
+							{% if profile_user.hobbies|length %}
+							<div>
+								<span class="add-info-name">
+									Hobbies:
+								</span>
+								<span class="text-center text-secondary mb-2 p-2">
+									{{ profile_user.hobbies }}
+								</span>
+							</div>
+							{% endif %}
+						</div>
                     </div>
                 </div>
                 <div class="card mb-5">
