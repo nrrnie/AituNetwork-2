@@ -28,7 +28,7 @@
                             {% endif %}
                             <div class="mt-3">
                                 <h4>{{ profile_user['first_name'] }} {{ profile_user['last_name'] }}</h4>
-                                <h6>{{ profile_user.last_online }}</h6>
+                                <h6>{{ last_online }}</h6>
 
 
                                 {% if user.id == profile_user.id %}
@@ -85,7 +85,7 @@
 								Group:
 							</span>
 							<span class="text-center text-secondary mb-2 p-2">
-								{{ profile_user.program + '-' + profile_user.group }}
+								{{ profile_user.program + '-' + profile_user.group + ' (Year {})'.format(profile_user.year) }}
 							</span>
 							{% if profile_user.education|length %}
 							<div>

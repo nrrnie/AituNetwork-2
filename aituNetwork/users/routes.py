@@ -5,7 +5,7 @@ from aituNetwork.users import users
 from aituNetwork.models import Users, ProfilePictures, Friends, Posts, UsersChats, Chats
 from aituNetwork import db
 from utils import picturesDB, auth_required
-from datetime import date
+from datetime import date, datetime, timedelta
 
 @users.route('/profile/<slug>', methods=['GET'])
 @auth_required
@@ -33,6 +33,9 @@ def profile(slug: str):
         birthday = months[birthday_raw[1]] + ' ' + birthday_raw[2][1] + ' ' + birthday_raw[0]
     else:
         birthday = months[birthday_raw[1]] + ' ' + birthday_raw[2] + ' ' + birthday_raw[0]
+          
+    difference = datetime.now() - datetime.strptime(profile_user.last_online, '%Y-%m-%d %H:%M:%S.%f');
+    last_online = divmod(difference.days * 3600 + difference.seconds, 60)
 
     if profile_user is None:
         return 'user is not found'
@@ -49,7 +52,7 @@ def profile(slug: str):
     friend_list = Friends.get_friend_list(profile_user.id)[:6]
 
     return render_template('profile.html', user=user, profile_user=profile_user, friend_status=friend_status,
-                           posts=posts, friend_list=friend_list, birthday=birthday)
+                           posts=posts, friend_list=friend_list, birthday=birthday, last_online=last_online)
 
 
 @users.route('/friends')
@@ -112,9 +115,9 @@ def settings():
         return redirect(url_for('users.settings'))
         
 
-    
     update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me,
-                       password=password, education=education, hobbies=hobbies, birthday=birthday_raw, city=city, group=group, program=program)
+                       password=password, education=education, hobbies=hobbies, birthday=birthday_raw, city=city, group=group, program=program, year=year)
+                       
     Users.update_user_info(session['user'].id, update_info)
 
     session['user'] = Users.query.get(session['user'].id)
