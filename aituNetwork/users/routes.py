@@ -2,7 +2,7 @@ from flask import request, render_template, session
 from flask import redirect, url_for, flash
 from passlib.hash import sha256_crypt
 from aituNetwork.users import users
-from aituNetwork.models import Users, ProfilePictures, Friends, Posts, UsersChats, Chats
+from aituNetwork.models import Users, ProfilePictures, Friends, Posts, UsersChats, Chats, Cities
 from aituNetwork import db
 from utils import picturesDB, auth_required
 
@@ -51,9 +51,10 @@ def messages():
 @auth_required
 def settings():
     user = session['user']
+    cities = Cities.get_cities()
 
     if request.method == 'GET':
-        return render_template('settings.html', user=user)
+        return render_template('settings.html', user=user, cities=cities)
 
     picture = request.files.get('profile-picture')
     if picture:
@@ -65,9 +66,13 @@ def settings():
     first_name = request.form.get('first-name')
     last_name = request.form.get('last-name')
     about_me = request.form.get('about-me')
-    birthday = request.form.get('birthday')
+    birthday = request.form.get('birthday', None)
+    birthday = None if birthday == '' else birthday
+    city = request.form.get('city')
     password = request.form.get('password')
     password_confirm = request.form.get('password-confirm')
+
+    print(city)
 
     if password != '':
         if password != password_confirm:
@@ -81,7 +86,7 @@ def settings():
         flash('Slug is already taken.', 'danger')
         return redirect(url_for('users.settings'))
 
-    update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me, birthday=birthday,
+    update_info = dict(slug=slug, first_name=first_name, last_name=last_name, about_me=about_me, birthday=birthday, city=city,
                        password=password)
     Users.update_user_info(user.id, update_info)
 
