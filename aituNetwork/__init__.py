@@ -51,6 +51,12 @@ def create_app():
     from aituNetwork.template_functions import is_friend
     app.jinja_env.globals.update(is_friend=is_friend)
 
+    from aituNetwork.template_functions import get_city_name
+    app.jinja_env.globals.update(get_city_name=get_city_name)
+
+    from aituNetwork.template_functions import get_edu_program_name
+    app.jinja_env.globals.update(get_edu_program_name=get_edu_program_name)
+
     @app.route('/')
     def main():
         return redirect(url_for('auth.login'))

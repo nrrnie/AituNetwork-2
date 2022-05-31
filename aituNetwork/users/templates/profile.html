@@ -38,22 +38,26 @@
                                 <a class="btn btn-secondary mt-2"
                                    href="{{ url_for('users.remove_friend', user_id=user.id, friend_id=profile_user.id) }}">Cancel
                                     request</a>
-                                <a href="{{ url_for('chat.conversation', chat_user_id=profile_user.id) }}" class="btn btn-primary mt-2">Message</a>
+                                <a href="{{ url_for('chat.conversation', chat_user_id=profile_user.id) }}"
+                                   class="btn btn-primary mt-2">Message</a>
                                 {% elif friend_status == 2 %}
                                 <a class="btn btn-secondary mt-2"
                                    href="{{url_for('users.add_friend', user_id=user.id, friend_id=profile_user.id)}}">Accept
                                     request</a>
-                                <a href="{{ url_for('chat.conversation', chat_user_id=profile_user.id) }}" class="btn btn-primary mt-2">Message</a>
+                                <a href="{{ url_for('chat.conversation', chat_user_id=profile_user.id) }}"
+                                   class="btn btn-primary mt-2">Message</a>
                                 {% elif friend_status == 3 %}
                                 <a class="btn btn-secondary mt-2"
                                    href="{{ url_for('users.remove_friend', user_id=user.id, friend_id=profile_user.id) }}">Remove
                                     from friends</a>
-                                <a href="{{ url_for('chat.conversation', chat_user_id=profile_user.id) }}" class="btn btn-primary mt-2">Message</a>
+                                <a href="{{ url_for('chat.conversation', chat_user_id=profile_user.id) }}"
+                                   class="btn btn-primary mt-2">Message</a>
                                 {% else %}
                                 <a class="btn btn-secondary mt-2"
                                    href="{{url_for('users.add_friend', user_id=user.id, friend_id=profile_user.id)}}">Add
                                     to Friend</a>
-                                <a href="{{ url_for('chat.conversation', chat_user_id=profile_user.id) }}" class="btn btn-primary mt-2">Message</a>
+                                <a href="{{ url_for('chat.conversation', chat_user_id=profile_user.id) }}"
+                                   class="btn btn-primary mt-2">Message</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -70,19 +74,22 @@
                         <div class="friends d-flex justify-content-center row row-cols-3">
 
                             {% if friend_list|length == 0 %}
-                                {{ profile_user.first_name }} does not have any friends.
+                            {{ profile_user.first_name }} does not have any friends.
                             {% endif %}
 
                             {% for friend in friend_list %}
                             {% set friend = get_user(friend.user_id) %}
                             {% set picture = get_picture(friend.id) %}
-                            <a href="{{ url_for('users.profile', slug=friend.slug) }}" class="friend mb-3 text-dark text-decoration-none">
+                            <a href="{{ url_for('users.profile', slug=friend.slug) }}"
+                               class="friend mb-3 text-dark text-decoration-none">
                                 <div class="friend-picture d-flex justify-content-center">
                                     {% if picture %}
-                                    <img src="{{ url_for('utils.get_picture', filename=get_picture(friend.id).name) }}" alt="Admin"
+                                    <img src="{{ url_for('utils.get_picture', filename=get_picture(friend.id).name) }}"
+                                         alt="Admin"
                                          class="rounded-circle" width="80" height="80">
                                     {% else %}
-                                    <img src="https://i.pinimg.com/originals/fc/04/73/fc047347b17f7df7ff288d78c8c281cf.png" alt="Admin"
+                                    <img src="https://i.pinimg.com/originals/fc/04/73/fc047347b17f7df7ff288d78c8c281cf.png"
+                                         alt="Admin"
                                          class="rounded-circle" width="80">
                                     {% endif %}
                                 </div>
@@ -96,15 +103,60 @@
             </div>
             <div class="col-lg-6">
                 <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-3">
+                    <div class="card-body pb-0">
+                        <div class="row mb-3">
+                            <div class="col-sm-5">
                                 <h6 class="mb-0">Barcode</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary">
+                            <div class="col-sm-7 text-secondary">
                                 <h6 class="mb-0">{{ profile_user['barcode'] }}</h6>
                             </div>
                         </div>
+
+                        {% if user.birthday %}
+                        <div class="row mb-3">
+                            <div class="col-sm-5">
+                                <h6 class="mb-0">Birthday</h6>
+                            </div>
+                            <div class="col-sm-7 text-secondary">
+                                <h6 class="mb-0">{{ profile_user.birthday }}</h6>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if user.city %}
+                        <div class="row mb-3">
+                            <div class="col-sm-5">
+                                <h6 class="mb-0">City</h6>
+                            </div>
+                            <div class="col-sm-7 text-secondary">
+                                <h6 class="mb-0">{{ get_city_name(profile_user.city) }}</h6>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if user.course %}
+                        <div class="row mb-3">
+                            <div class="col-sm-5">
+                                <h6 class="mb-0">Course</h6>
+                            </div>
+                            <div class="col-sm-7 text-secondary">
+                                <h6 class="mb-0">{{ profile_user.course }}</h6>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if user.edu_program %}
+                        <div class="row mb-3">
+                            <div class="col-sm-5">
+                                <h6 class="mb-0">Educational Program</h6>
+                            </div>
+                            <div class="col-sm-7 text-secondary">
+                                <h6 class="mb-0">{{ get_edu_program_name(profile_user.edu_program) }}</h6>
+                            </div>
+                        </div>
+                        {% endif %}
+
                     </div>
                 </div>
 

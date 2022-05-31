@@ -8,3 +8,7 @@ class Cities(db.Model):
     @staticmethod
     def get_cities():
         return Cities.query.order_by(Cities.id.asc()).all()
+
+    @staticmethod
+    def get_city(city_id: int):
+        return Cities.query.get(city_id)
