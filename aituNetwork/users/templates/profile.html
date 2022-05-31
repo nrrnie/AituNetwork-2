@@ -109,11 +109,11 @@
                                 <h6 class="mb-0">Barcode</h6>
                             </div>
                             <div class="col-sm-7 text-secondary">
-                                <h6 class="mb-0">{{ profile_user['barcode'] }}</h6>
+                                <h6 class="mb-0">{{ profile_user.barcode }}</h6>
                             </div>
                         </div>
 
-                        {% if user.birthday %}
+                        {% if profile_user.birthday %}
                         <div class="row mb-3">
                             <div class="col-sm-5">
                                 <h6 class="mb-0">Birthday</h6>
@@ -124,7 +124,7 @@
                         </div>
                         {% endif %}
 
-                        {% if user.city %}
+                        {% if profile_user.city %}
                         <div class="row mb-3">
                             <div class="col-sm-5">
                                 <h6 class="mb-0">City</h6>
@@ -135,7 +135,7 @@
                         </div>
                         {% endif %}
 
-                        {% if user.course %}
+                        {% if profile_user.course %}
                         <div class="row mb-3">
                             <div class="col-sm-5">
                                 <h6 class="mb-0">Course</h6>
@@ -146,7 +146,7 @@
                         </div>
                         {% endif %}
 
-                        {% if user.edu_program %}
+                        {% if profile_user.edu_program %}
                         <div class="row mb-3">
                             <div class="col-sm-5">
                                 <h6 class="mb-0">Educational Program</h6>
