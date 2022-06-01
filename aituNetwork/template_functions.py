@@ -1,4 +1,4 @@
-from aituNetwork.models import Users, ProfilePictures, PostLikes, UsersChats, Messages, Friends, Cities, EduPrograms
+from aituNetwork.models import Users, ProfilePictures, PostLikes, UsersChats, Messages, Friends, Cities, EduPrograms, Admins
 
 
 def get_user(user_id: int):
@@ -33,3 +33,7 @@ def get_city_name(city_id: int):
 
 def get_edu_program_name(edu_program_id: int):
     return EduPrograms.get_edu_program(edu_program_id).name
+
+
+def is_admin(user_id: int):
+    return Admins.is_admin(user_id)
