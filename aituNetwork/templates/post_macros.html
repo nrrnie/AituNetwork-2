@@ -19,7 +19,7 @@
                         post_user['last_name'] }}</a>
                     <p class="fs-6 text-secondary">{{ post['created'] }}</p>
                 </div>
-                {% if user.id == post.author_id %}
+                {% if user.id == post.author_id or is_admin(user.id) %}
                 <div class="dropdown">
                     <svg id="dropdownMenuButton1" data-bs-toggle="dropdown" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512" width="16"
                          height="18">
