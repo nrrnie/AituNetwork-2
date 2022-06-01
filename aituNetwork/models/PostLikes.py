@@ -28,6 +28,11 @@ class PostLikes(db.Model):
         db.session.commit()
 
     @staticmethod
+    def delete_likes_from_post(post_id: int):
+        PostLikes.query.filter_by(post_id=post_id).delete()
+        db.session.commit()
+
+    @staticmethod
     def delete_likes_for_deleted_user(user_id: int, post_id_list: list):
         PostLikes.query.filter_by(user_id=user_id).delete()
 

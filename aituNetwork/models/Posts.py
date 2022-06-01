@@ -10,6 +10,10 @@ class Posts(db.Model):
     created = db.Column(db.DATETIME, nullable=False, default=datetime.now)
 
     @staticmethod
+    def get(post_id: int):
+        return Posts.query.get(post_id)
+
+    @staticmethod
     def add_post(author_id: int, content: str):
         post = Posts(author_id=author_id, content=content)
         db.session.add(post)
@@ -34,6 +38,14 @@ class Posts(db.Model):
             post.likes = PostLikes.get_like_counts(post.id)
 
         return posts
+
+    @staticmethod
+    def delete_post(post_id: int):
+        Posts.query.filter_by(id=post_id).delete()
+
+        db.session.commit()
+
+        PostLikes.delete_likes_from_post(post_id)
 
     @staticmethod
     def delete_posts_for_deleted_user(user_id: int):

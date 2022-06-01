@@ -198,3 +198,19 @@ def delete_user(user_id: int):
     db.session.commit()
 
     return 'User was deleted'
+
+
+@users.route('/delete-post/<post_id>')
+@auth_required
+def delete_post(post_id):
+    user = session['user']
+    post = Posts.get(post_id)
+
+    if user.id != post.author_id and not Admins.is_admin(user.id):
+        flash('You don\'t access', 'danger')
+
+    profile_user = Users.get(post.author_id)
+
+    Posts.delete_post(post_id)
+
+    return redirect(url_for('users.profile', slug=profile_user.slug))
