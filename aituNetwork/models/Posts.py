@@ -34,3 +34,10 @@ class Posts(db.Model):
             post.likes = PostLikes.get_like_counts(post.id)
 
         return posts
+
+    @staticmethod
+    def delete_posts_for_deleted_user(user_id: int):
+        posts_id_list = Posts.query.filter_by(author_id=user_id).with_entities(Posts.id).all()
+        Posts.query.filter_by(author_id=user_id).delete()
+
+        return posts_id_list

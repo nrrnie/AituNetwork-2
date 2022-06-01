@@ -19,3 +19,7 @@ class Chats(db.Model):
         db.session.commit()
 
         return chat.id
+
+    @staticmethod
+    def delete_chat(chat_id: int):
+        Chats.query.filter_by(id=chat_id).delete()

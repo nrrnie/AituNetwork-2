@@ -1,6 +1,5 @@
 from sqlalchemy import func, desc
-from aituNetwork.models import db
-from aituNetwork.models import Chats, Messages
+from aituNetwork.models import db, Chats, Messages
 from typing import Union
 
 
@@ -31,9 +30,10 @@ class UsersChats(db.Model):
         return chat_user if chat_user is None else chat_user.user_id
 
     @staticmethod
-    def get_user_chats(user_id: int) -> list:
+    def get_user_chats(user_id: int):
         chat_id_list = UsersChats.query.filter_by(user_id=user_id).with_entities(UsersChats.chat_id)
         chats = Messages.query.filter(Messages.chat_id.in_(chat_id_list)).group_by(Messages.chat_id).with_entities(func.max(Messages.id).label('id'), Messages.chat_id).order_by(desc('id')).all()
+
         return chats
 
     @staticmethod
@@ -49,3 +49,11 @@ class UsersChats(db.Model):
         user_chat = UsersChats(chat_id=chat_id, user_id=user_id)
         db.session.add(user_chat)
         db.session.commit()
+
+    @staticmethod
+    def delete_chats_for_deleted_user(user_id: int):
+        chat_list = UsersChats.get_user_chats(user_id)
+        for chat in chat_list:
+            UsersChats.query.filter_by(chat_id=chat.chat_id).delete()
+
+        return chat_list

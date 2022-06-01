@@ -57,3 +57,7 @@ class Friends(db.Model):
     @staticmethod
     def is_friend(user_id: int, friend_id: int):
         return Friends.query.filter_by(user_id=user_id, friend_id=friend_id).first() is not None
+
+    @staticmethod
+    def delete_friends_for_deleted_user(user_id: int):
+        Friends.query.filter((Friends.user_id == user_id) | (Friends.friend_id == user_id)).delete()

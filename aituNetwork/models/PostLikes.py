@@ -26,3 +26,12 @@ class PostLikes(db.Model):
         post_like = PostLikes.get_post_like(user_id, post_id)
         db.session.delete(post_like)
         db.session.commit()
+
+    @staticmethod
+    def delete_likes_for_deleted_user(user_id: int, post_id_list: list):
+        PostLikes.query.filter_by(user_id=user_id).delete()
+
+        for post_id in post_id_list:
+            # add [0] to post_id, because post_id has this form:
+            # (*post_id*, ). So it's a tuple.
+            PostLikes.query.filter_by(post_id=post_id[0]).delete()

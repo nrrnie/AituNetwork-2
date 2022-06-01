@@ -59,6 +59,19 @@
                                 <a href="{{ url_for('chat.conversation', chat_user_id=profile_user.id) }}"
                                    class="btn btn-primary mt-2">Message</a>
                                 {% endif %}
+
+                                {% if is_admin(user.id) and user.id != profile_user.id %}
+                                <div class="dropdown mt-2">
+                                    <button class="btn btn-secondary" type="button"
+                                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Options
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item" role="button" onclick="confirm_delete()">Delete user</a></li>
+                                        <li><a class="dropdown-item" href="#">Change info</a></li>
+                                    </ul>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                         <hr class="my-3">
@@ -194,6 +207,12 @@
     </div>
 </div>
 
+<script>
+    let profile_user_id = {{ profile_user.id }};
+</script>
+
 <script src="/static/js/likes.js"></script>
+<script src="{{ url_for('users.static', filename='js/profile.js') }}"></script>
+
 
 {% endblock %}

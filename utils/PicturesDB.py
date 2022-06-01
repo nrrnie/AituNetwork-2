@@ -36,3 +36,9 @@ class PicturesDB:
         path = os.path.join(self.database_path, table)
         path = os.path.join(path, filename)
         return path
+
+    def delete_picture(self, table: str, filename: str):
+        path = os.path.join(self.database_path, table)
+        path = os.path.join(path, filename)
+
+        os.remove(path)

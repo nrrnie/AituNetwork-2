@@ -27,3 +27,7 @@ class Messages(db.Model):
     @staticmethod
     def get_last_message(chat_id: int):
         return Messages.query.filter_by(chat_id=chat_id).order_by(Messages.id.desc()).first()
+
+    @staticmethod
+    def delete_messages_in_chat(chat_id: int):
+        Messages.query.filter_by(chat_id=chat_id).delete()

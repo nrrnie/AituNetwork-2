@@ -1,6 +1,6 @@
-from aituNetwork.models import db, Friends
+from aituNetwork.models import db
 from datetime import datetime
-from utils import random_id
+from utils import random_id, picturesDB
 
 
 class Users(db.Model):
@@ -40,3 +40,9 @@ class Users(db.Model):
     @staticmethod
     def get_users_for_new_friends_list(user_id: int):
         return Users.query.filter(Users.is_activated == 1, Users.id != user_id)
+
+    @staticmethod
+    def delete_user(user_id: int):
+        user = Users.get(user_id)
+        db.session.delete(user)
+

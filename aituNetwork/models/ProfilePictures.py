@@ -11,3 +11,11 @@ class ProfilePictures(db.Model):
     @staticmethod
     def get_profile_picture(user_id: int):
         return ProfilePictures.query.filter_by(user_id=user_id).order_by(ProfilePictures.id.desc()).first()
+
+    @staticmethod
+    def delete_pictures_for_deleted_user(user_id: int):
+        pictures = ProfilePictures.query.filter_by(user_id=user_id).all()
+
+        ProfilePictures.query.filter_by(user_id=user_id).delete()
+
+        return pictures
